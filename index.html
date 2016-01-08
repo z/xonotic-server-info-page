@@ -40,6 +40,7 @@
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#main" data-toggle="tab"><i class="fa fa-list"></i> Main</a></li>
+                <li><a href="#chat" data-toggle="tab"><i class="fa fa-comment"></i> Chat</a></li>
                 <li><a href="#maplist" data-toggle="tab"><i class="fa fa-map-o"></i> Maplist</a></li>
                 <li><a href="#about" data-toggle="tab"><i class="fa fa-info-circle"></i> About</a></li>
               </ul>
@@ -94,8 +95,7 @@
                                                         <th>Team</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                </tbody>
+                                                <tbody></tbody>
                                         </table>
 
                                     </div>
@@ -110,6 +110,21 @@
                 </div><!-- .panel -->
 
             </div><!-- .tab-pane -->
+
+            <div id="chat" class="tab-pane">
+
+                <div class="panel">
+                    <div class="panel-body">
+
+                        <h2>Chat</h2>
+
+                        <iframe src="https://webchat.quakenet.org/?channels=smb&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>
+
+                    </div><!-- .panel-body -->
+                </div><!-- .panel -->
+
+            </div><!-- .tab-pane -->
+
             <div id="maplist" class="tab-pane">
 
                 <div class="panel">
@@ -123,6 +138,7 @@
                 </div><!-- .panel -->
 
             </div><!-- .tab-pane -->
+
             <div id="about" class="tab-pane">
 
                 <div class="panel">
@@ -149,6 +165,7 @@
 
     <script type="text/javascript" src="https://cdn.datatables.net/s/bs/jqc-1.11.3,dt-1.10.10,b-1.1.0,b-colvis-1.1.0,b-html5-1.1.0,cr-1.3.0,fh-3.1.0,se-1.1.0/datatables.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./static/vendor/dataTables/plugins/dataTables.conditionalPaging.js"></script>
     <script type="text/javascript" src="./static/vendor/x2js/xml2json.min.js"></script>
     <script type="text/javascript" src="./static/vendor/konami/konami.js"></script>
     <script type="text/javascript" src="./static/vendor/jquery-cookie/jquery.cookie.js"></script>

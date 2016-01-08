@@ -61,6 +61,9 @@ $(document).ready(function() {
         $('#server-playerlist').DataTable({
             data: qs.players.player,
             dataSrc: '',
+            dom: "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            conditionalPaging: true,
             columns: [
                 { data: "name" },
                 { data: "ping" },
