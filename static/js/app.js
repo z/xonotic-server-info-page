@@ -55,8 +55,21 @@ $(document).ready(function() {
         $('#server-numplayers').text(qs.numplayers);
         $('#server-maxplayers').text(qs.maxplayers);
         $('#server-gametype').text("gametype: " + qs.gametype);
-        $('#server-players').text(qs.players);
+
+        console.log(qs.players.player);
+
+        $('#server-playerlist').DataTable({
+            data: qs.players.player,
+            dataSrc: '',
+            columns: [
+                { data: "name" },
+                { data: "ping" },
+                { data: "score" },
+                { data: "team" }
+            ]
+        });
     });
+
 
     /*
      * Theme Switcher
