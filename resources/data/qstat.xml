@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<qstat>
+    <server type="XONOTICS" address="96.44.146.149:26000" status="UP">
+        <hostname>96.44.146.149:26000</hostname>
+        <name>(SMB) Kansas Public [git]</name>
+        <gametype></gametype>
+        <map>vinegar_v3</map>
+        <numplayers>3</numplayers>
+        <maxplayers>32</maxplayers>
+        <ping>32</ping>
+        <retries>0</retries>
+        <rules>
+            <rule name="gamename">Xonotic</rule>
+            <rule name="modname">data_public</rule>
+            <rule name="gameversion">801</rule>
+            <rule name="bots">0</rule>
+            <rule name="protocol">3</rule>
+            <rule name="qcstatus">ctf:git:P162:S29:F7:MXonotic::score!!:caps!!:5:0:14:1</rule>
+            <rule name="d0_blind_id">1 3TgWwpTKPPdrrunW27tMQDg5O/Ch2q4YtH6w1dSVXFg=@Xon//KssdlzGkFKdnnN4sgg8H+koTbBn5JTi37BAW1Q= @~XHub/MCjSOklCBU4ADlHX3+EcTjC0xhJ6odguyTvGp0=</rule>
+            <rule name="hostname">(SMB) Kansas Public [git]</rule>
+        </rules>
+        <players>
+            <player>
+                <name>demi</name>
+                <score>22</score>
+                <team>2</team>
+                <ping>187</ping>
+            </player>
+            <player>
+                <name>&lt;font color="#EE0011"&gt;Buddy&lt;/font&gt;&lt;font color="#22FF11"&gt;Friend&lt;/font&gt;&lt;font color="#EECC00"&gt;Guy&lt;/font&gt;</name>
+                <score>1</score>
+                <team>1</team>
+                <ping>91</ping>
+            </player>
+            <player>
+                <name>&lt;font color="#006611"&gt;-&lt;/font&gt;&lt;font color="#77BB00"&gt;z&lt;/font&gt;&lt;font color="#006611"&gt;-&lt;/font&gt;</name>
+                <score>-666</score>
+                <team>0</team>
+                <ping>85</ping>
+            </player>
+        </players>
+    </server>
+</qstat>

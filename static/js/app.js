@@ -1,9 +1,61 @@
 $(document).ready(function() {
 
+    // qStat object from dpmaster
+
     var x2js = new X2JS();
 
-    $.get('http://dpmaster.deathmask.net/?game=xonotic&server=96.44.146.149:26000&showplayers=1&xml=1', function(data) {
-        console.log(x2js.xml_str2json( data ));
+    var serverIP = '96.44.146.159';
+    var serverPort = '26000';
+    //var qstatXML = 'http://dpmaster.deathmask.net/?game=xonotic&server=' + serverIP  + ':' + serverPort + '&showplayers=1&xml=1';
+    var qstatXML = 'resources/data/qstat.xml';
+
+    $.get(qstatXML, function(xml) {
+        // TODO - XSS protection
+        console.log(xml);
+        var qstatJSON = x2js.xml2json( xml );
+        var qs = qstatJSON.qstat.server;
+
+        console.log(qs);
+        console.log(qs.name);
+        console.log(qs.map);
+        console.log(qs.ping);
+        console.log(qs.numplayers);
+        console.log(qs.maxplayers);
+        console.log(qs.gametype);
+        console.log(qs.players);
+
+        function isValidImage(url, callback) {
+            var img = new Image();
+            img.onerror = function() { callback(url, false); }
+            img.onload =  function() { callback(url, true); }
+            img.src = url;
+        }
+
+        function findMapImageCallback(url, answer) {
+            if (answer) {
+                $('#map-pic').attr('src', url).attr('title', qs.map);
+            }
+        }
+
+        function findMapImage(map) {
+            var imageExtensions = ['jpg','png','gif'];
+            var mapPicDir = 'http://xonotic.co/resources/mapshots/maps/';
+            $.each(imageExtensions, function(index, value) {
+                var imgURL = mapPicDir + map + '.' + value;
+                isValidImage(imgURL, findMapImageCallback);
+            });
+            return false;
+        }
+
+        findMapImage(qs.map);
+
+        $('#server-name').text(qs.name);
+        $('#server-map').text("map title: " + qs.map);
+        $('#server-ping').text("ping: " + qs.ping);
+        $('#server-numplayers').text(qs.numplayers);
+        $('#server-maxplayers').text(qs.maxplayers);
+        $('#server-gametype').text("gametype: " + qs.gametype);
+        $('#server-players').text(qs.players);
     });
 
     /*
