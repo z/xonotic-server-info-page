@@ -1,9 +1,13 @@
 # xonotic-server-info-page
 A boilerplate for setting up an informational page for your Xonotic game server.
 
-Everything here is intended to be client-side code, meaning you can even put your server's webpage on github.io!
+[demo](http://z.github.io/xonotic-server-info-page)
 
-[Future] Features Include:
-* Live information about your server (querying the master server list with javascript)
-* An IRC widget to allow users to chat with your IRC channel from the page
-* More
+##### Features
+* Live server information (queries the master server list using ajax) or optionally read a local qstat XML file
+* IRC widget to allow users to chat with your IRC channel from the page
+* Maplist you can configure (coming soon)
+* News page (blog) that reads markdown
+* About page
+
+This software was developed using static files, you can serve them locally for development with `python -m simpleHTTPServer 8000` and visit `http://localhost:8000`.
