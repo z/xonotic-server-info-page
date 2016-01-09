@@ -102,10 +102,10 @@ $(document).ready(function() {
 
                 $('#blog').append('<div class="post">' +
                                     '<h2>' + metaData.title + '</h2>' +
-                                    '<h5>Posted ' + metaData.date + ' by ' + metaData.author + '</h5>' +
+                                    '<h5><i class="fa fa-calendar"></i> ' + metaData.date + ' posted by <i class="fa fa-user"></i> ' + metaData.author + ' in ' + '<i class="fa fa-tag"></i> <span class="label label-info">' + metaData.category + '</span>' + '</h5>' +
                                     '<hr />' +
                                     '<p>' + marked(content) + '</p>' +
-                                    '<p><span class="label label-info">' + metaData.category + '</span></p>' +
+                                    '<p></p>' +
                                   '</div>'
                 );
 
@@ -202,6 +202,20 @@ $(document).ready(function() {
     }
 
     new Konami(function() { themeSwitcher(); } );
+
+
+    // Handle tabs on page reload
+
+    // Javascript to enable link to tab
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.navbar-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+    } 
+
+    // Change hash for page-reload
+    $('.navbar-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
 
 } );
 
