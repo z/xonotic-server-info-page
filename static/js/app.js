@@ -1,77 +1,113 @@
 $(document).ready(function() {
 
-    // qStat object from dpmaster
+    function populateBlog() {
 
-    var x2js = new X2JS();
+        // the latest goes first
+        var posts = [
+            'second-post',
+            'first-post'
+        ];
 
-    var serverIP = '96.44.146.159';
-    var serverPort = '26000';
-    //var qstatXML = 'http://dpmaster.deathmask.net/?game=xonotic&server=' + serverIP  + ':' + serverPort + '&showplayers=1&xml=1';
-    var qstatXML = 'resources/data/qstat.xml';
+        $.each(posts, function(index, post) {
 
-    $.get(qstatXML, function(xml) {
-        // TODO - XSS protection
-        console.log(xml);
-        var qstatJSON = x2js.xml2json( xml );
-        var qs = qstatJSON.qstat.server;
+            $.get("resources/data/blog/" + post + ".md", function(data) {
 
-        console.log(qs);
-        console.log(qs.name);
-        console.log(qs.map);
-        console.log(qs.ping);
-        console.log(qs.numplayers);
-        console.log(qs.maxplayers);
-        console.log(qs.gametype);
-        console.log(qs.players);
+                var endfm = data.nthIndexOf("---",2);
+                var fm = data.slice(4, endfm);
+                var content = data.slice(endfm + 3);                      
+                var metaData = jsyaml.load(fm);
 
-        function isValidImage(url, callback) {
-            var img = new Image();
-            img.onerror = function() { callback(url, false); }
-            img.onload =  function() { callback(url, true); }
-            img.src = url;
-        }
+                $("#blog").append("<div class='post'>" +
+                                    "<h2>" + metaData.title + "</h2>" +
+                                    "<h4>" + metaData.date + "</h4>" +
+                                    "<p>" + content + "</p>" +
+                                  "</div>"
+                );
 
-        function findMapImageCallback(url, answer) {
-            if (answer) {
-                $('#map-pic').attr('src', url).attr('title', qs.map);
-            }
-        }
-
-        function findMapImage(map) {
-            var imageExtensions = ['jpg','png','gif'];
-            var mapPicDir = 'http://xonotic.co/resources/mapshots/maps/';
-            $.each(imageExtensions, function(index, value) {
-                var imgURL = mapPicDir + map + '.' + value;
-                isValidImage(imgURL, findMapImageCallback);
             });
-            return false;
-        }
 
-        findMapImage(qs.map);
-
-        $('#server-name').text(qs.name);
-        $('#server-map').text("map title: " + qs.map);
-        $('#server-ping').text("ping: " + qs.ping);
-        $('#server-numplayers').text(qs.numplayers);
-        $('#server-maxplayers').text(qs.maxplayers);
-        $('#server-gametype').text("gametype: " + qs.gametype);
-
-        console.log(qs.players.player);
-
-        $('#server-playerlist').DataTable({
-            data: qs.players.player,
-            dataSrc: '',
-            dom: "<'row'<'col-sm-12'tr>>" +
-                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            conditionalPaging: true,
-            columns: [
-                { data: "name" },
-                { data: "ping" },
-                { data: "score" },
-                { data: "team" }
-            ]
         });
-    });
+       
+    }
+
+    populateBlog();
+
+    // get qStat xml from dpmaster and create a JSON object
+    function populateServerPanel() {
+        var x2js = new X2JS();
+
+        var serverIP = '96.44.146.149';
+        var serverPort = '26000';
+        var qstatXML = 'http://dpmaster.deathmask.net/?game=xonotic&server=' + serverIP  + ':' + serverPort + '&showplayers=1&xml=1';
+        //var qstatXML = 'resources/data/qstat.xml';
+
+        $.get(qstatXML, function(xml) {
+            
+            var qstatJSON = x2js.xml2json( xml );
+            var qs = qstatJSON.qstat.server;
+
+            function isValidImage(url, callback) {
+                var img = new Image();
+                img.onerror = function() { callback(url, false); }
+                img.onload =  function() { callback(url, true); }
+                img.src = url;
+            }
+
+            function findMapImageCallback(url, answer) {
+                if (answer) {
+                    $('#map-pic').attr('src', url).attr('title', qs.map);
+                }
+            }
+
+            function findMapImage(map) {
+                var imageExtensions = ['jpg','png','gif'];
+                var mapPicDir = 'http://xonotic.co/resources/mapshots/maps/';
+                $.each(imageExtensions, function(index, value) {
+                    var imgURL = mapPicDir + map + '.' + value;
+                    isValidImage(imgURL, findMapImageCallback);
+                });
+                return false;
+            }
+
+            findMapImage(qs.map);
+
+            $('#server-name').text(qs.name);
+            $('#server-map').text("map title: " + qs.map);
+            $('#server-ping').text("ping: " + qs.ping);
+            $('#server-numplayers').text(qs.numplayers);
+            $('#server-maxplayers').text(qs.maxplayers);
+            $('#server-gametype').text("gametype: " + qs.gametype);
+
+            $('#server-playerlist').DataTable({
+                data: qs.players.player,
+                dataSrc: '',
+                language: {
+                          emptyTable: "No Players Currently On The Server"
+                },
+                dom: "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                conditionalPaging: true,
+                columns: [
+                    { data: "name" },
+                    { data: "ping" },
+                    { data: "score" },
+                    { data: "team" }
+                ],
+                columnDefs: [
+                    {
+                        // handle missing team
+                        target: 3,
+                        render: function ( data, type, full, meta ) {
+                            return (data) ? data : '';
+                        }
+                    }
+                ]
+            });
+        });
+
+    }
+
+    populateServerPanel();
 
 
     /*
@@ -153,4 +189,15 @@ function bytesToSize(bytes) {
    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 };
+
+String.prototype.nthIndexOf = function(pattern, n) {
+    var i = -1;
+
+    while (n-- && i++ < this.length) {
+        i = this.indexOf(pattern, i);
+        if (i < 0) break;
+    }
+
+    return i;
+}
 

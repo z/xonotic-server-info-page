@@ -39,10 +39,11 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#main" data-toggle="tab"><i class="fa fa-list"></i> Main</a></li>
+                <li class="active"><a href="#main" data-toggle="tab"><i class="fa fa-list"></i> Server</a></li>
                 <li><a href="#chat" data-toggle="tab"><i class="fa fa-comment"></i> Chat</a></li>
                 <li><a href="#maplist" data-toggle="tab"><i class="fa fa-map-o"></i> Maplist</a></li>
                 <li><a href="#about" data-toggle="tab"><i class="fa fa-info-circle"></i> About</a></li>
+                <li><a href="#news" data-toggle="tab"><i class="fa fa-newspaper-o"></i> News</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li id="nav-table-controls" class="navbar-btn"></li>
@@ -59,7 +60,7 @@
                 <div class="panel">
                     <div class="panel-body">
 
-                        <h2>Main</h2>
+                        <h2>Server</h2>
 
                         <noscript>
                             <h3 class="text-warning">This webpage requires javascript</h3>
@@ -153,6 +154,21 @@
 
             </div><!-- .tab-pane -->
 
+            <div id="news" class="tab-pane">
+
+                <div class="panel">
+                    <div class="panel-body">
+
+                        <h2>News</h2>
+
+                        <div id="blog">
+                        </div>
+
+                    </div><!-- .panel-body -->
+                </div><!-- .panel -->
+
+            </div><!-- .tab-pane -->
+
         </div><!-- .tabbable -->
 
         <div id="footer">
@@ -167,6 +183,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./static/vendor/dataTables/plugins/dataTables.conditionalPaging.js"></script>
     <script type="text/javascript" src="./static/vendor/x2js/xml2json.min.js"></script>
+    <script type="text/javascript" src="./static/vendor/js-yaml/js-yaml.min.js"></script>
     <script type="text/javascript" src="./static/vendor/konami/konami.js"></script>
     <script type="text/javascript" src="./static/vendor/jquery-cookie/jquery.cookie.js"></script>
     <script type="text/javascript" src="./static/js/app.js"></script>
