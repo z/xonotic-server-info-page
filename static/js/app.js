@@ -26,7 +26,7 @@ $(document).ready(function() {
     });
 
     var mapListData = [];
-    $.each(config.mapList, function(index, mapname) {
+    $.each(manifest.mapList, function(index, mapname) {
         mapListData.push({
             name: mapname,
             thumbnail: config.mapPicDir + mapname + '.jpg'
@@ -92,7 +92,6 @@ $(document).ready(function() {
         var x2js = new X2JS();
 
         // for development, it's faster to query local xml
-        //$.cookie('dev', '1');
         if ($.cookie('dev')) {
             var qstatXML = config.qstatLocalXML;
         } else {
@@ -117,14 +116,16 @@ $(document).ready(function() {
             $('#server-maxplayers').text(qs.maxplayers);
             $('#server-gametype').text("gametype: " + qs.gametype);
 
-        
-            $.each(qs.players.player, function(index, player) {
-                if ( qs.players.player[index].hasOwnProperty('team') != true ) {
-                    qs.players.player[index].team = -1;
-                }
-            });
+            if ( qs.players.player.length > 0 ) {
+                $.each(qs.players.player, function(index, player) {
+                    if ( qs.players.player[index].hasOwnProperty('team') != true ) {
+                        qs.players.player[index].team = -1;
+                    }
+                });
 
-            playerListTable.clear().rows.add(qs.players.player).draw();
+                playerListTable.clear().rows.add(qs.players.player).draw();
+
+            }
         });
 
     }
@@ -132,7 +133,7 @@ $(document).ready(function() {
 
     function populateBlog() {
 
-        $.each(config.posts, function(index, post) {
+        $.each(manifest.posts, function(index, post) {
 
             $.get("resources/data/blog/" + post + ".md", function(data) {
 
@@ -156,20 +157,24 @@ $(document).ready(function() {
        
     }
 
+    function initTimer() {
+        var timer = $.timer(function() {
+            populateServerPanel();
+        });
+        timer.set({ time : 30000, autostart : true });
+
+        $('#timer-toggle').click(function() {
+            if ( $(this).prop('checked') ) {
+                timer.play();
+            } else {
+                timer.pause();
+            }
+        });
+    }
+
     populateServerPanel();
 
-    var timer = $.timer(function() {
-        populateServerPanel();
-    });
-    timer.set({ time : 30000, autostart : true });
-
-    $('#timer-toggle').click(function() {
-        if ( $(this).prop('checked') ) {
-            timer.play();
-        } else {
-            timer.pause();
-        }
-    });
+    initTimer();
 
     populateBlog();
 
@@ -259,6 +264,9 @@ $(document).ready(function() {
 
 } );
 
+function setDevCookie() {
+    $.cookie('dev', '1');
+}
 
 function bytesToSize(bytes) {
    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];

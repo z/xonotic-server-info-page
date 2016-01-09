@@ -1,4 +1,5 @@
 var config = {
+
     // Game Server config
     serverAddress: '96.44.146.149',
     serverPort: '26000',
@@ -11,19 +12,8 @@ var config = {
     qstatLocalXML: 'resources/data/qstat.xml',
 
     // local or remote for bspname.jpg
-    mapPicDir: 'http://xonotic.co/resources/mapshots/maps/',
-    // A list of bsp names
-    mapList: [
-        'vinegar_v3',
-        'dance_nex'
-    ],
+    mapPicDir: 'http://xonotic.co/resources/mapshots/maps/'
 
-    // list the posts you'd like to show here
-    // latest first
-    posts: [
-            'second-post',
-            'first-post'
-    ]
 };
 
 // build the remote qstat URL and adds it to the config
