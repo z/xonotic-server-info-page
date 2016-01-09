@@ -4,10 +4,13 @@ $(document).ready(function() {
     function populateServerPanel() {
         var x2js = new X2JS();
 
-        var serverIP = '96.44.146.149';
-        var serverPort = '26000';
-        //var qstatXML = 'http://dpmaster.deathmask.net/?game=xonotic&server=' + serverIP  + ':' + serverPort + '&showplayers=1&xml=1';
-        var qstatXML = 'resources/data/qstat.xml';
+        // for development, it's faster to query local xml
+        //$.cookie('dev', '1');
+        if ($.cookie('dev')) {
+            var qstatXML = config.qstatLocalXML;
+        } else {
+            var qstatXML = config.qstatXML;
+        }
 
         $.get(qstatXML, function(xml) {
             
@@ -29,9 +32,8 @@ $(document).ready(function() {
 
             function findMapImage(map) {
                 var imageExtensions = ['jpg','png','gif'];
-                var mapPicDir = 'http://xonotic.co/resources/mapshots/maps/';
                 $.each(imageExtensions, function(index, value) {
-                    var imgURL = mapPicDir + map + '.' + value;
+                    var imgURL = config.mapPicDir + map + '.' + value;
                     isValidImage(imgURL, findMapImageCallback);
                 });
                 return false;
