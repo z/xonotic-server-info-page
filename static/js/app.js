@@ -132,13 +132,7 @@ $(document).ready(function() {
 
     function populateBlog() {
 
-        // the latest goes first
-        var posts = [
-            'second-post',
-            'first-post'
-        ];
-
-        $.each(posts, function(index, post) {
+        $.each(config.posts, function(index, post) {
 
             $.get("resources/data/blog/" + post + ".md", function(data) {
 
