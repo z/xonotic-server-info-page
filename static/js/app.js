@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var devMode = $.cookie('dev') ? true : false;
+
     var playerListTable = $('#server-playerlist').DataTable({
         dataSrc: '',
         language: {
@@ -92,7 +94,7 @@ $(document).ready(function() {
         var x2js = new X2JS();
 
         // for development, it's faster to query local xml
-        if ($.cookie('dev')) {
+        if (devMode) {
             var qstatXML = config.qstatLocalXML;
         } else {
             var qstatXML = config.qstatXML;
@@ -129,7 +131,6 @@ $(document).ready(function() {
         });
 
     }
-
 
     function populateBlog() {
 
@@ -222,7 +223,8 @@ $(document).ready(function() {
         '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
     '</div></li>';
 
-        $('.navbar-right').append(themeMenu);
+        $('.navbar-right').prepend(themeMenu);
+        $('#theme-switcher-wrapper').hide();
 
         $.each(themes, function(index, value) {
             var title = index.charAt(0).toUpperCase() + index.substr(1);
@@ -234,6 +236,7 @@ $(document).ready(function() {
             setTheme(theme);
         });
 
+        $('#theme-switcher-wrapper').show();
     }
 
     function setTheme(theme) {
@@ -246,11 +249,28 @@ $(document).ready(function() {
         $('#theme-switcher-wrapper span').text('Theme: ' + theme);
     }
 
-    if ($.cookie('dev')) {
+    if (devMode) {
         themeSwitcher();
     } else {
-        new Konami(function() { themeSwitcher(); } );
+        new Konami(function() {
+            themeSwitcher();
+        });
     }
+
+    $('#devmode').click(function() {
+        if (devMode) {
+            devMode = false;
+            removeDevCookie();
+            populateServerPanel();
+            $('#theme-switcher-wrapper').hide();
+        } else {
+            devMode = true;
+            themeSwitcher();
+            setDevCookie();
+            populateServerPanel();
+            $('#theme-switcher-wrapper').show();
+        }
+    });
 
 
     // Handle tabs on page reload

@@ -2,9 +2,8 @@
 #main-content {
     margin-top:40px;
 }
-hr {
-    margin-top:2px;
-    margin-bottom:2px;
+.post {
+    margin-top:50px;
 }
 .dataTables_processing {
     width:300px !important;
@@ -22,7 +21,7 @@ hr {
 #table-controls {
     display:none;
 }
-#nav-table-controls, #theme-switcher-wrapper {
+#nav-dev-controls, #theme-switcher-wrapper {
     margin-right:10px;
 }
 #table-maplist_length, #table-maplist_filter, #theme-switcher-wrapper {
