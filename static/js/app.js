@@ -1,45 +1,13 @@
 $(document).ready(function() {
 
-    function populateBlog() {
-
-        // the latest goes first
-        var posts = [
-            'second-post',
-            'first-post'
-        ];
-
-        $.each(posts, function(index, post) {
-
-            $.get("resources/data/blog/" + post + ".md", function(data) {
-
-                var endfm = data.nthIndexOf("---",2);
-                var fm = data.slice(4, endfm);
-                var content = data.slice(endfm + 3);                      
-                var metaData = jsyaml.load(fm);
-
-                $("#blog").append("<div class='post'>" +
-                                    "<h2>" + metaData.title + "</h2>" +
-                                    "<h4>" + metaData.date + "</h4>" +
-                                    "<p>" + marked(content) + "</p>" +
-                                  "</div>"
-                );
-
-            });
-
-        });
-       
-    }
-
-    populateBlog();
-
     // get qStat xml from dpmaster and create a JSON object
     function populateServerPanel() {
         var x2js = new X2JS();
 
         var serverIP = '96.44.146.149';
         var serverPort = '26000';
-        var qstatXML = 'http://dpmaster.deathmask.net/?game=xonotic&server=' + serverIP  + ':' + serverPort + '&showplayers=1&xml=1';
-        //var qstatXML = 'resources/data/qstat.xml';
+        //var qstatXML = 'http://dpmaster.deathmask.net/?game=xonotic&server=' + serverIP  + ':' + serverPort + '&showplayers=1&xml=1';
+        var qstatXML = 'resources/data/qstat.xml';
 
         $.get(qstatXML, function(xml) {
             
@@ -71,9 +39,13 @@ $(document).ready(function() {
 
             findMapImage(qs.map);
 
+            // Gametype is only avaiable in qs rules status for many games
+            var statusLine = qs.rules.rule[5]['__text'];
+            var gametype = statusLine.split(':')[0];
+            qs.gametype = gametype;
+
             $('#server-name').text(qs.name);
             $('#server-map').text("map title: " + qs.map);
-            $('#server-ping').text("ping: " + qs.ping);
             $('#server-numplayers').text(qs.numplayers);
             $('#server-maxplayers').text(qs.maxplayers);
             $('#server-gametype').text("gametype: " + qs.gametype);
@@ -107,7 +79,39 @@ $(document).ready(function() {
 
     }
 
+    function populateBlog() {
+
+        // the latest goes first
+        var posts = [
+            'second-post',
+            'first-post'
+        ];
+
+        $.each(posts, function(index, post) {
+
+            $.get("resources/data/blog/" + post + ".md", function(data) {
+
+                var endfm = data.nthIndexOf("---",2);
+                var fm = data.slice(4, endfm);
+                var content = data.slice(endfm + 3);                      
+                var metaData = jsyaml.load(fm);
+
+                $("#blog").append("<div class='post'>" +
+                                    "<h2>" + metaData.title + "</h2>" +
+                                    "<h4>" + metaData.date + "</h4>" +
+                                    "<p>" + marked(content) + "</p>" +
+                                  "</div>"
+                );
+
+            });
+
+        });
+       
+    }
+
     populateServerPanel();
+
+    populateBlog();
 
 
     /*
