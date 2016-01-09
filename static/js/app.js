@@ -17,10 +17,9 @@ $(document).ready(function() {
         columnDefs: [
             {
                 // handle missing team
-                target: 3,
+                targets: 3,
                 render: function ( data, type, full, meta ) {
-                console.log(data);
-                    return (data == -1) ? '' : 'spec';
+                    return (data == -1) ? 0 : data;
                 }
             }
         ]
@@ -30,7 +29,7 @@ $(document).ready(function() {
     $.each(config.mapList, function(index, mapname) {
         mapListData.push({
             name: mapname,
-            thumbnail: mapname
+            thumbnail: config.mapPicDir + mapname + '.jpg'
         });
     });
 
@@ -49,10 +48,10 @@ $(document).ready(function() {
         ],
         columnDefs: [
             {
-                target: 1,
+                targets: 1,
                 render: function ( data, type, full, meta ) {       
-                    return data + " thumbnail soon";
-//                    findMapImage(data, mapListMapImageCallback);
+                    //findMapImage(data, mapListMapImageCallback);
+                    return '<img src="' + data + '" title="mapshot" height="200" />';
                 }
             }
         ]
@@ -61,7 +60,6 @@ $(document).ready(function() {
 
     function isValidImage(url, callback) {
         var img = new Image();
-        img.onerror = function() { callback(url, false); }
         img.onload =  function() { callback(url, true); }
         img.src = url;
     }
@@ -73,8 +71,9 @@ $(document).ready(function() {
     }
 
     function mapListMapImageCallback(url, answer) {
+        console.log(answer + ": " + url);
         if (answer) {
-            return url + "hi";
+            return url;
         }
     }
 
@@ -82,6 +81,7 @@ $(document).ready(function() {
         var imageExtensions = ['jpg','png'];
         $.each(imageExtensions, function(index, value) {
             var imgURL = config.mapPicDir + map + '.' + value;
+//            console.log(imgURL);
             isValidImage(imgURL, findMapImageCallback);
         });
         return false;
