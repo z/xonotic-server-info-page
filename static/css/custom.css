@@ -1,9 +1,13 @@
 .container { width: auto; }
 #main-content {
-    margin-top:40px;
+    margin-top:60px;
+}
+#main-content h2 {
+    margin-top:0;
 }
 .post {
-    margin-top:50px;
+    margin-top:0;
+    margin-bottom:50px;
 }
 .dataTables_processing {
     width:300px !important;
