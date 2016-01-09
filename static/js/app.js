@@ -1,5 +1,30 @@
 $(document).ready(function() {
 
+    var playerList = $('#server-playerlist').DataTable({
+        dataSrc: '',
+        language: {
+                  emptyTable: "No Players Currently On The Server"
+        },
+        dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        conditionalPaging: true,
+        columns: [
+            { data: "name" },
+            { data: "ping" },
+            { data: "score" },
+            { data: "team" }
+        ],
+        columnDefs: [
+            {
+                // handle missing team
+                target: 3,
+                render: function ( data, type, full, meta ) {
+                    return (data) ? data : '';
+                }
+            }
+        ]
+    });
+
     // get qStat xml from dpmaster and create a JSON object
     function populateServerPanel() {
         var x2js = new X2JS();
@@ -31,7 +56,7 @@ $(document).ready(function() {
             }
 
             function findMapImage(map) {
-                var imageExtensions = ['jpg','png','gif'];
+                var imageExtensions = ['jpg','png'];
                 $.each(imageExtensions, function(index, value) {
                     var imgURL = config.mapPicDir + map + '.' + value;
                     isValidImage(imgURL, findMapImageCallback);
@@ -46,40 +71,17 @@ $(document).ready(function() {
             var gametype = statusLine.split(':')[0];
             qs.gametype = gametype;
 
-            $('#server-name').text(qs.name);
+            $('#server-name').html(qs.name);
             $('#server-map').text("map title: " + qs.map);
             $('#server-numplayers').text(qs.numplayers);
             $('#server-maxplayers').text(qs.maxplayers);
             $('#server-gametype').text("gametype: " + qs.gametype);
 
-            $('#server-playerlist').DataTable({
-                data: qs.players.player,
-                dataSrc: '',
-                language: {
-                          emptyTable: "No Players Currently On The Server"
-                },
-                dom: "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-                conditionalPaging: true,
-                columns: [
-                    { data: "name" },
-                    { data: "ping" },
-                    { data: "score" },
-                    { data: "team" }
-                ],
-                columnDefs: [
-                    {
-                        // handle missing team
-                        target: 3,
-                        render: function ( data, type, full, meta ) {
-                            return (data) ? data : '';
-                        }
-                    }
-                ]
-            });
+            playerList.clear().rows.add(qs.players.player).draw();
         });
 
     }
+
 
     function populateBlog() {
 
@@ -115,8 +117,21 @@ $(document).ready(function() {
 
     populateServerPanel();
 
+    var timer = $.timer(function() {
+        populateServerPanel();
+    });
+    timer.set({ time : 30000, autostart : true });
+
     populateBlog();
 
+
+    $('#timer-toggle').click(function() {
+        if ( $(this).prop('checked') ) {
+            timer.play();
+        } else {
+            timer.pause();
+        }
+    });
 
     /*
      * Theme Switcher
