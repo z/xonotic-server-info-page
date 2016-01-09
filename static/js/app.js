@@ -25,6 +25,67 @@ $(document).ready(function() {
         ]
     });
 
+    var mapListData = [];
+    $.each(config.mapList, function(index, mapname) {
+        mapListData.push({
+            name: mapname,
+            thumbnail: mapname
+        });
+    });
+
+    var mapList = $('#server-maplist').DataTable({
+        data: mapListData,
+        dataSrc: '',
+        language: {
+                  emptyTable: "The admin has not listed any maps"
+        },
+        dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+        conditionalPaging: true,
+        columns: [
+            { data: "name" },
+            { data: "thumbnail" },
+        ],
+        columnDefs: [
+            {
+                target: 1,
+                render: function ( data, type, full, meta ) {       
+                    return data + " thumbnail soon";
+//                    findMapImage(data, mapListMapImageCallback);
+                }
+            }
+        ]
+    });
+
+
+    function isValidImage(url, callback) {
+        var img = new Image();
+        img.onerror = function() { callback(url, false); }
+        img.onload =  function() { callback(url, true); }
+        img.src = url;
+    }
+
+    function serverListMapImageCallback(url, answer) {
+        if (answer) {
+            $('#map-pic').attr('src', url);
+        }
+    }
+
+    function mapListMapImageCallback(url, answer) {
+        if (answer) {
+            return url + "hi";
+        }
+    }
+
+    function findMapImage(map, findMapImageCallback) {
+        var imageExtensions = ['jpg','png'];
+        $.each(imageExtensions, function(index, value) {
+            var imgURL = config.mapPicDir + map + '.' + value;
+            isValidImage(imgURL, findMapImageCallback);
+        });
+        return false;
+    }
+
     // get qStat xml from dpmaster and create a JSON object
     function populateServerPanel() {
         var x2js = new X2JS();
@@ -42,29 +103,7 @@ $(document).ready(function() {
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
 
-            function isValidImage(url, callback) {
-                var img = new Image();
-                img.onerror = function() { callback(url, false); }
-                img.onload =  function() { callback(url, true); }
-                img.src = url;
-            }
-
-            function findMapImageCallback(url, answer) {
-                if (answer) {
-                    $('#map-pic').attr('src', url).attr('title', qs.map);
-                }
-            }
-
-            function findMapImage(map) {
-                var imageExtensions = ['jpg','png'];
-                $.each(imageExtensions, function(index, value) {
-                    var imgURL = config.mapPicDir + map + '.' + value;
-                    isValidImage(imgURL, findMapImageCallback);
-                });
-                return false;
-            }
-
-            findMapImage(qs.map);
+            findMapImage(qs.map, serverListMapImageCallback);
 
             // Gametype is only avaiable in qs rules status for many games
             var statusLine = qs.rules.rule[5]['__text'];
@@ -122,9 +161,6 @@ $(document).ready(function() {
     });
     timer.set({ time : 30000, autostart : true });
 
-    populateBlog();
-
-
     $('#timer-toggle').click(function() {
         if ( $(this).prop('checked') ) {
             timer.play();
@@ -132,6 +168,8 @@ $(document).ready(function() {
             timer.pause();
         }
     });
+
+    populateBlog();
 
     /*
      * Theme Switcher
