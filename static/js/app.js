@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $("#blog").append("<div class='post'>" +
                                     "<h2>" + metaData.title + "</h2>" +
                                     "<h4>" + metaData.date + "</h4>" +
-                                    "<p>" + content + "</p>" +
+                                    "<p>" + marked(content) + "</p>" +
                                   "</div>"
                 );
 
