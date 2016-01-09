@@ -96,11 +96,13 @@ $(document).ready(function() {
                 var content = data.slice(endfm + 3);                      
                 var metaData = jsyaml.load(fm);
 
-                $("#blog").append("<div class='post'>" +
-                                    "<h2>" + metaData.title + "</h2>" +
-                                    "<h4>" + metaData.date + "</h4>" +
-                                    "<p>" + marked(content) + "</p>" +
-                                  "</div>"
+                $('#blog').append('<div class="post">' +
+                                    '<h2>' + metaData.title + '</h2>' +
+                                    '<h5>Posted ' + metaData.date + ' by ' + metaData.author + '</h5>' +
+                                    '<hr />' +
+                                    '<p>' + marked(content) + '</p>' +
+                                    '<p><span class="label label-info">' + metaData.category + '</span></p>' +
+                                  '</div>'
                 );
 
             });
