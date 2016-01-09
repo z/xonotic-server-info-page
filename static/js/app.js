@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var playerList = $('#server-playerlist').DataTable({
+    var playerListTable = $('#server-playerlist').DataTable({
         dataSrc: '',
         language: {
                   emptyTable: "No Players Currently On The Server"
@@ -19,7 +19,8 @@ $(document).ready(function() {
                 // handle missing team
                 target: 3,
                 render: function ( data, type, full, meta ) {
-                    return (data) ? data : '';
+                console.log(data);
+                    return (data == -1) ? '' : 'spec';
                 }
             }
         ]
@@ -33,7 +34,7 @@ $(document).ready(function() {
         });
     });
 
-    var mapList = $('#server-maplist').DataTable({
+    var mapListTable = $('#server-maplist').DataTable({
         data: mapListData,
         dataSrc: '',
         language: {
@@ -116,7 +117,14 @@ $(document).ready(function() {
             $('#server-maxplayers').text(qs.maxplayers);
             $('#server-gametype').text("gametype: " + qs.gametype);
 
-            playerList.clear().rows.add(qs.players.player).draw();
+        
+            $.each(qs.players.player, function(index, player) {
+                if ( qs.players.player[index].hasOwnProperty('team') != true ) {
+                    qs.players.player[index].team = -1;
+                }
+            });
+
+            playerListTable.clear().rows.add(qs.players.player).draw();
         });
 
     }
