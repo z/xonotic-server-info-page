@@ -116,7 +116,7 @@ $(document).ready(function() {
             $('#server-maxplayers').text(qs.maxplayers);
             $('#server-gametype').text("gametype: " + qs.gametype);
 
-            if ( qs.players.length > 0 ) {
+            if ( qs.players != "" ) {
                 $.each(qs.players.player, function(index, player) {
                     if ( qs.players.player[index].hasOwnProperty('team') != true ) {
                         qs.players.player[index].team = -1;
@@ -246,7 +246,11 @@ $(document).ready(function() {
         $('#theme-switcher-wrapper span').text('Theme: ' + theme);
     }
 
-    new Konami(function() { themeSwitcher(); } );
+    if ($.cookie('dev')) {
+        themeSwitcher();
+    } else {
+        new Konami(function() { themeSwitcher(); } );
+    }
 
 
     // Handle tabs on page reload
@@ -266,6 +270,10 @@ $(document).ready(function() {
 
 function setDevCookie() {
     $.cookie('dev', '1');
+}
+
+function removeDevCookie() {
+    $.removeCookie('dev');
 }
 
 function bytesToSize(bytes) {
