@@ -14,6 +14,9 @@ var config = {
     // local or remote for bspname.jpg
     mapshotDir: 'http://xonotic.co/resources/mapshots/maps/',
 
+    // theme (can be overriden by user's choice if switcher is enabled)
+    theme: 'default',
+
     // IRC channel
     ircChannel: 'smb',
 

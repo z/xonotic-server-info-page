@@ -220,6 +220,8 @@ $(document).ready(function() {
 
     if (userTheme) {
         setTheme(userTheme);
+    } else if (config.theme) {
+        setTheme(config.theme);
     }
 
     // themeSwitcher Widget
