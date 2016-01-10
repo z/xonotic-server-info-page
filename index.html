@@ -29,8 +29,22 @@
             <ul id="config-options">
                 <li><label>Server Address</label> <input type="text" id="editor-opt-server-address" placeholder="Server Address" /></li>
                 <li><label>Server Port</label> <input type="text" id="editor-opt-server-port" placeholder="Server Port" /></li>
-                <li><label>Server Game</label> <input type="text" id="editor-opt-server-game" placeholder="Server Game" /></li>
-                <li><label><input type="checkbox" id="editor-opt-localxml" /> Enable Theme Switcher</label></li>
+                <li><label>Server Game</label>
+                    <select id="editor-opt-server-game" class="form-control">
+                        <option>xonotic</option>
+                        <option>warsow</option>
+                        <option>nexuiz</option>
+                        <option>openarena</option>
+                        <option>urbanterror</option>
+                        <option>tremulous</option>
+                        <option>steelstorm</option>
+                        <option>wolfet</option>
+                        <option>transfusion</option>
+                        <option>quake</option>
+                    </select>
+                </li>
+                <li><label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label></li>
+                <li id="theme-switcher-wrapper"></li>
                 <li><button id="editor-apply-config" class="btn btn-default">Apply</button> <button id="editor-export-config" class="btn btn-default">Export Config</button></li>
             </ul>
         </div>

@@ -105,6 +105,8 @@ $(document).ready(function() {
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
 
+            $('#map-pic').attr('src', './resources/images/no_map_pic.png');
+
             if ( cachedMapPics.hasOwnProperty(qs.map) ) {
                 serverListMapImageCallback(cachedMapPics[qs.map].url, true);
             } else {
@@ -202,16 +204,15 @@ $(document).ready(function() {
 
         // Setup menu
 
-        var themeMenu = '<li id="theme-switcher-wrapper" class="navbar-btn"><div class="dropdown btn-group">' +
+        var themeMenu = '<div class="dropdown btn-group">' +
         '<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">' +
             '<span>Theme</span> ' +
             '<i class="caret"></i>' +
         '</a>' +
         '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
-    '</div></li>';
+    '</div>';
 
-        $('#editor-options ul').prepend(themeMenu);
-        $('#theme-switcher-wrapper').hide();
+        $('#theme-switcher-wrapper').hide().html(themeMenu);
 
         $.each(manifest.themes, function(index, value) {
             var title = index.charAt(0).toUpperCase() + index.substr(1);
@@ -259,6 +260,11 @@ $(document).ready(function() {
         $('#editor-opt-server-address').val(config.serverAddress);
         $('#editor-opt-server-port').val(config.serverPort);
         $('#editor-opt-server-game').val(config.serverGame);
+        $('#editor-opt-theme-switcher').prop('checked', config.editorOptions.themeSwitcher);
+
+        $('#editor-opt-theme-switcher').click(function() {
+            toggleThemeSwitcher($(this));
+        });
 
         $('#editor-apply-config').click(function() {
             applyConfig();
@@ -271,9 +277,11 @@ $(document).ready(function() {
         $('#editor-opener').click(function() {
             toggleEditor();
         });
-        $("#editor-close").click(function() {
+
+        $('#editor-close').click(function() {
             toggleEditor(); 
         });
+
     }
 
     function toggleEditor() {
@@ -290,6 +298,18 @@ $(document).ready(function() {
             populateServerPanel();
         } 
         return false; 
+    }
+
+    function toggleThemeSwitcher($el) {
+        var enabled = $el.prop('checked');
+        config.editorOptions.themeSwitcher = enabled;
+        var $ts = $('#theme-switcher-wrapper');
+        console.log(enabled);
+        if (enabled) {
+            $ts.show();
+        } else {
+            $ts.hide();
+        }
     }
 
     if (devMode == false) {
