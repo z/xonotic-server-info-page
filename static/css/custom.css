@@ -26,7 +26,7 @@
     display:none;
 }
 #nav-dev-controls {
-    margin-right:10px;
+    padding-right:10px;
 }
 #table-maplist_length, #table-maplist_filter {
     margin-left: 10px;
@@ -40,6 +40,7 @@ div.dt-buttons {
 }
 #editor-panel {
     position:fixed;
+    top: 0;
     right:0;
     width:300px;
     height:100%;
