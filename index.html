@@ -43,8 +43,9 @@
                         <option>quake</option>
                     </select>
                 </li>
+                <li><label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label></li>
+                <li><label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" placeholder="IRC Channel" /></li>
                 <li><label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label></li>
-                <li id="theme-switcher-wrapper"></li>
                 <li><button id="editor-apply-config" class="btn btn-default">Apply</button> <button id="editor-export-config" class="btn btn-default">Export Config</button></li>
             </ul>
         </div>
@@ -73,6 +74,7 @@
                 <li><a href="#news" data-toggle="tab"><i class="fa fa-newspaper-o"></i> News</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                <li id="theme-switcher-wrapper" class="navbar-btn"></li>
                 <li><a href="#editor-panel" id="editor-opener"><i class="fa fa-gear" title="Developer Tools"></i></a></li>
               </ul>
             </div><!--/.nav-collapse -->
@@ -140,7 +142,9 @@
                 <div class="panel">
                     <div class="panel-body">
 
-                        <iframe src="https://webchat.quakenet.org/?channels=smb&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>
+                        <div id="chat-wrapper">
+                            <a id="btn-chat-load" class="btn btn-default">Load Chat Client</a>
+                        </div>
 
                     </div><!-- .panel-body -->
                 </div><!-- .panel -->

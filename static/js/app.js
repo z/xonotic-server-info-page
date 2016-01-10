@@ -32,7 +32,7 @@ $(document).ready(function() {
     $.each(manifest.mapList, function(index, mapname) {
         mapListData.push({
             name: mapname,
-            thumbnail: config.mapPicDir + mapname + '.jpg'
+            thumbnail: config.mapshotDir + mapname + '.jpg'
         });
     });
 
@@ -83,7 +83,7 @@ $(document).ready(function() {
     function findMapImage(map, findMapImageCallback) {
         var imageExtensions = ['jpg','png'];
         $.each(imageExtensions, function(index, value) {
-            var imgURL = config.mapPicDir + map + '.' + value;
+            var imgURL = config.mapshotDir + map + '.' + value;
             isValidImage(map, imgURL, findMapImageCallback);
         });
         return false;
@@ -179,11 +179,29 @@ $(document).ready(function() {
         });
     }
 
+    function loadChat() {
+        $("#chat-wrapper").html('<iframe src="https://webchat.quakenet.org/?channels=' + config.ircChannel + '&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>');
+    }
+
+    function initChat() {
+        if ( config.enableLoadChatButton ) {
+            $("#btn-chat-load").click(function(e) {
+                e.preventDefault();
+                loadChat();
+            });
+        } else {
+            loadChat();
+        }
+    }
+
     populateServerPanel();
 
     initTimer();
 
+    initChat();
+
     populateBlog();
+
 
     /*
      * Theme Switcher
@@ -241,6 +259,8 @@ $(document).ready(function() {
         config.serverAddress = $('#editor-opt-server-address').val();
         config.serverPort = $('#editor-opt-server-port').val();
         config.serverGame = $('#editor-opt-server-game').val();
+        config.enableLoadChatButton = $('#editor-opt-load-chat-button').val();
+        config.ircChannel = $('#editor-opt-irc-channel').val();
 
         // build the remote qstat URL and adds it to the config
         config.qstatXML = config.qstatAddress +
@@ -260,7 +280,13 @@ $(document).ready(function() {
         $('#editor-opt-server-address').val(config.serverAddress);
         $('#editor-opt-server-port').val(config.serverPort);
         $('#editor-opt-server-game').val(config.serverGame);
+        $('#editor-opt-load-chat-button').prop('checked', config.enableLoadChatButton);
+        $('#editor-opt-irc-channel').val(config.ircChannel);
         $('#editor-opt-theme-switcher').prop('checked', config.editorOptions.themeSwitcher);
+
+        $('#editor-opt-load-chat-button').click(function() {
+            toggleLoadChatButton($(this));
+        });
 
         $('#editor-opt-theme-switcher').click(function() {
             toggleThemeSwitcher($(this));
@@ -298,6 +324,12 @@ $(document).ready(function() {
             populateServerPanel();
         } 
         return false; 
+    }
+
+    function toggleLoadChatButton($el) {
+        var enabled = $el.prop('checked');
+        console.log(enabled);
+        config.enableLoadChatButton = enabled;
     }
 
     function toggleThemeSwitcher($el) {

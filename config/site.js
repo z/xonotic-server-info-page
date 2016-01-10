@@ -12,8 +12,14 @@ var config = {
     qstatLocalXML: 'resources/data/qstat.xml',
 
     // local or remote for bspname.jpg
-    mapPicDir: 'http://xonotic.co/resources/mapshots/maps/',
+    mapshotDir: 'http://xonotic.co/resources/mapshots/maps/',
 
+    // IRC channel
+    ircChannel: 'smb',
+
+    // if true, the chat iframe will be loaded only when requested
+    enableLoadChatButton: true,
+    
     // allow for devmode
     enableEditor: true,
 
