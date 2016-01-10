@@ -280,6 +280,15 @@ $(document).ready(function() {
     }
 
     function exportConfig() {
+
+        var zip = new JSZip();
+        zip.file("config/site.js", JSON.stringify(config, null, 4));
+
+        var content = zip.generate({type:"blob"});
+
+        // see FileSaver.js
+        saveAs(content, "config.zip");
+
         console.log(config);
     }
 
