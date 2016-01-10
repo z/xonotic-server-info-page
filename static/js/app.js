@@ -60,6 +60,14 @@ $(document).ready(function() {
         ]
     });
 
+    function buildStatURL() {
+        // build the remote qstat URL and adds it to the config
+        config.qstatXML = config.qstatAddress +
+                            '&game=' + config.serverGame +
+                            '&server=' + config.serverAddress +
+                            ':' + config.serverPort;
+    }
+
     function isValidImage(map, url, callback) {
         var img = new Image();
         img.onload =  function() { callback(map, url, true); }
@@ -97,6 +105,7 @@ $(document).ready(function() {
         if (devMode && config.editorOptions.useLocalXML) {
             var qstatXML = config.qstatLocalXML;
         } else {
+            buildStatURL();
             var qstatXML = config.qstatXML;
         }
 

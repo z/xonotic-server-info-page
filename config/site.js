@@ -30,9 +30,3 @@ var config = {
     }
 
 };
-
-// build the remote qstat URL and adds it to the config
-config.qstatXML = config.qstatAddress +
-                    '&game=' + config.serverGame +
-                    '&server=' + config.serverAddress +
-                    ':' + config.serverPort;
