@@ -22,14 +22,16 @@ var config = {
 
     // if true, the chat iframe will be loaded only when requested
     enableLoadChatButton: true,
+
+    // this allows users to choose their own theme (uses a cookie)
+    enableThemeSwitcher: true,
     
     // allow for devmode
     enableEditor: true,
 
     // debug options in developer mode
     editorOptions: {
-        useLocalXML: false,
-        themeSwitcher: true
+        useLocalXML: false
     }
 
 };

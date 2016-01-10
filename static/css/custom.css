@@ -42,16 +42,20 @@ div.dt-buttons {
     position:fixed;
     top: 0;
     right:0;
+    border-radius: 0;
     width:300px;
     height:100%;
     margin-right:-300px;
     z-index:10000;
 }
 #editor-panel h4 {
-    margin-top:0px;
+    margin-top: 0;
 }
 #editor-opener {
     float:left;
+}
+#editor-close {
+    cursor: pointer;
 }
 #editor-options {
     overflow: auto;

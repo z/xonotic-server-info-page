@@ -113,35 +113,43 @@ $(document).ready(function() {
             
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
+            
+            if (qs._status == "UP") {
 
-            $('#map-pic').attr('src', './resources/images/no_map_pic.png');
+                $('#map-pic').attr('src', './resources/images/no_map_pic.png');
 
-            if ( cachedMapPics.hasOwnProperty(qs.map) ) {
-                serverListMapImageCallback(cachedMapPics[qs.map].url, true);
+                if ( cachedMapPics.hasOwnProperty(qs.map) ) {
+                    serverListMapImageCallback(cachedMapPics[qs.map].url, true);
+                } else {
+                    findMapImage(qs.map, serverListMapImageCallback);
+                }
+
+                // Gametype is only avaiable in qs rules status for many games
+                qs.gametype = "";
+                if (qs.rules && qs.rules.rule && qs.rules.rule.length > 5) {
+                    var statusLine = qs.rules.rule[5]['__text'];
+                    var gametype = statusLine.split(':')[0];
+                    qs.gametype = gametype;
+                }
+
+                $('#server-name').html(qs.name);
+                $('#server-map').text("map title: " + qs.map);
+                $('#server-numplayers').text(qs.numplayers);
+                $('#server-maxplayers').text(qs.maxplayers);
+                $('#server-gametype').text("gametype: " + qs.gametype);
+
+                if ( qs.players && qs.players != "" ) {
+                    $.each(qs.players.player, function(index, player) {
+                        if ( qs.players.player[index].hasOwnProperty('team') != true ) {
+                            qs.players.player[index].team = -1;
+                        }
+                    });
+
+                    playerListTable.clear().rows.add(qs.players.player).draw();
+
+                }
             } else {
-                findMapImage(qs.map, serverListMapImageCallback);
-            }
-
-            // Gametype is only avaiable in qs rules status for many games
-            var statusLine = qs.rules.rule[5]['__text'];
-            var gametype = statusLine.split(':')[0];
-            qs.gametype = gametype;
-
-            $('#server-name').html(qs.name);
-            $('#server-map').text("map title: " + qs.map);
-            $('#server-numplayers').text(qs.numplayers);
-            $('#server-maxplayers').text(qs.maxplayers);
-            $('#server-gametype').text("gametype: " + qs.gametype);
-
-            if ( qs.players != "" ) {
-                $.each(qs.players.player, function(index, player) {
-                    if ( qs.players.player[index].hasOwnProperty('team') != true ) {
-                        qs.players.player[index].team = -1;
-                    }
-                });
-
-                playerListTable.clear().rows.add(qs.players.player).draw();
-
+                console.log("server is down");
             }
         });
 
@@ -227,7 +235,7 @@ $(document).ready(function() {
     // themeSwitcher Widget
     function themeSwitcher() {
 
-        if ( config.editorOptions.themeSwitcher == false ) {
+        if ( config.enableThemeSwitcher == false ) {
             return false;
         }
 
@@ -302,7 +310,7 @@ $(document).ready(function() {
         $('#editor-opt-server-game').val(config.serverGame);
         $('#editor-opt-load-chat-button').prop('checked', config.enableLoadChatButton);
         $('#editor-opt-irc-channel').val(config.ircChannel);
-        $('#editor-opt-theme-switcher').prop('checked', config.editorOptions.themeSwitcher);
+        $('#editor-opt-theme-switcher').prop('checked', config.enableThemeSwitcher);
 
         $('#editor-opt-load-chat-button').click(function() {
             toggleLoadChatButton($(this));
@@ -354,9 +362,8 @@ $(document).ready(function() {
 
     function toggleThemeSwitcher($el) {
         var enabled = $el.prop('checked');
-        config.editorOptions.themeSwitcher = enabled;
+        config.enableThemeSwitcher = enabled;
         var $ts = $('#theme-switcher-wrapper');
-        console.log(enabled);
         if (enabled) {
             $ts.show();
         } else {
