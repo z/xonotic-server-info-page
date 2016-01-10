@@ -31,9 +31,6 @@
 #table-maplist_length, #table-maplist_filter, #theme-switcher-wrapper {
     margin-left: 10px;
 }
-table.dataTable {
-    margin-top: 8px !important
-}
 
 div.dt-buttons {
     width:auto !important;

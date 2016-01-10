@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     var devMode = $.cookie('dev') ? true : false;
+    var cachedMapPics = [];
 
     var playerListTable = $('#server-playerlist').DataTable({
         dataSrc: '',
@@ -60,19 +61,20 @@ $(document).ready(function() {
     });
 
 
-    function isValidImage(url, callback) {
+    function isValidImage(map, url, callback) {
         var img = new Image();
-        img.onload =  function() { callback(url, true); }
+        img.onload =  function() { callback(map, url, true); }
         img.src = url;
     }
 
-    function serverListMapImageCallback(url, answer) {
+    function serverListMapImageCallback(map, url, answer) {
         if (answer) {
+            cachedMapPics[map] = { "url": url };
             $('#map-pic').attr('src', url);
         }
     }
 
-    function mapListMapImageCallback(url, answer) {
+    function mapListMapImageCallback(map, url, answer) {
         console.log(answer + ": " + url);
         if (answer) {
             return url;
@@ -84,7 +86,7 @@ $(document).ready(function() {
         $.each(imageExtensions, function(index, value) {
             var imgURL = config.mapPicDir + map + '.' + value;
 //            console.log(imgURL);
-            isValidImage(imgURL, findMapImageCallback);
+            isValidImage(map, imgURL, findMapImageCallback);
         });
         return false;
     }
@@ -105,7 +107,11 @@ $(document).ready(function() {
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
 
-            findMapImage(qs.map, serverListMapImageCallback);
+            if ( cachedMapPics.hasOwnProperty(qs.map) ) {
+                serverListMapImageCallback(cachedMapPics[qs.map].url, true);
+            } else {
+                findMapImage(qs.map, serverListMapImageCallback);
+            }
 
             // Gametype is only avaiable in qs rules status for many games
             var statusLine = qs.rules.rule[5]['__text'];
