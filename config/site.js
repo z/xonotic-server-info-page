@@ -19,7 +19,7 @@ var config = {
 
     // debug options in developer mode
     editorOptions: {
-        useLocalXML: true,
+        useLocalXML: false,
         themeSwitcher: true
     }
 

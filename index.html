@@ -23,6 +23,19 @@
   </head>
   <body>
 
+    <div id="editor-panel">
+        <h4>Configuration Options <span class="pull-right"><a href="#" id="editor-close">X</a></span></h4>
+        <div id="editor-options">
+            <ul id="config-options">
+                <li><label>Server Address</label> <input type="text" id="editor-opt-server-address" placeholder="Server Address" /></li>
+                <li><label>Server Port</label> <input type="text" id="editor-opt-server-port" placeholder="Server Port" /></li>
+                <li><label>Server Game</label> <input type="text" id="editor-opt-server-game" placeholder="Server Game" /></li>
+                <li><label><input type="checkbox" id="editor-opt-localxml" /> Enable Theme Switcher</label></li>
+                <li><button id="editor-apply-config" class="btn btn-default">Apply</button> <button id="editor-export-config" class="btn btn-default">Export Config</button></li>
+            </ul>
+        </div>
+    </div>
+
     <section class="container-fluid no-padding">
 
         <!-- Fixed navbar -->
@@ -46,11 +59,7 @@
                 <li><a href="#news" data-toggle="tab"><i class="fa fa-newspaper-o"></i> News</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                <li id="nav-dev-controls" class="navbar-btn">
-                    <div class="btn-group" role="group" aria-label="developer tools">
-                        <a id="devmode" class="btn btn-default btn-sm" tabindex="0" aria-controls="table-maplist"><span><i class="fa fa-gear" title="Developer Tools"></i></span></a>
-                    </div>
-                </li>
+                <li><a href="#editor-panel" id="editor-opener"><i class="fa fa-gear" title="Developer Tools"></i></a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -71,7 +80,7 @@
                         <!-- Current Server Stats -->
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><span id="server-name">Server Name</span> <span class="pull-right">Auto Refresh: <input type="checkbox" id="timer-toggle" checked="checked" /></span></h3>
+                                <h3 class="panel-title"><span id="server-name">Server Name</span> <label class="pull-right">Auto Refresh: <input type="checkbox" id="timer-toggle" checked="checked" /></label></h3>
                             </div>
                             <div class="panel-body">
 

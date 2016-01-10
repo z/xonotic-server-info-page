@@ -25,15 +25,49 @@
 #table-controls {
     display:none;
 }
-#nav-dev-controls, #theme-switcher-wrapper {
+#nav-dev-controls {
     margin-right:10px;
 }
-#table-maplist_length, #table-maplist_filter, #theme-switcher-wrapper {
+#table-maplist_length, #table-maplist_filter {
     margin-left: 10px;
 }
 
 div.dt-buttons {
     width:auto !important;
+}
+
+#editor-panel {
+    position:fixed;
+    right:0;
+    width:300px;
+    height:100%;
+    padding:10px;
+    color:#000;
+    background:#f5f5f5;
+    border-left:1px solid #ccc;
+    margin-right:-300px;
+    z-index:10000;
+}
+#editor-panel h4 {
+    margin-top:0px;
+}
+#editor-opener {
+    float:left;
+}
+#editor-options {
+    overflow: auto;
+    height: 95%;
+}
+#config-options {
+    list-style:none;
+    padding-left:10px;
+}
+
+#config-options label {
+    display: block;
+}
+#config-options > li {
+    margin-bottom:10px;
 }
 
 .icon {

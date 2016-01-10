@@ -42,9 +42,9 @@ $(document).ready(function() {
         language: {
                   emptyTable: "The admin has not listed any maps"
         },
-        dom: "<'row'<'col-sm-12'tr>>" +
+        dom: "<'row'<'col-sm-12'f>>" +
+                "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        conditionalPaging: true,
         columns: [
             { data: "name" },
             { data: "thumbnail" },
@@ -59,7 +59,6 @@ $(document).ready(function() {
             }
         ]
     });
-
 
     function isValidImage(map, url, callback) {
         var img = new Image();
@@ -211,7 +210,7 @@ $(document).ready(function() {
         '<ul id="theme-switcher" class="dropdown-menu"></ul>' +
     '</div></li>';
 
-        $('.navbar-right').prepend(themeMenu);
+        $('#editor-options ul').prepend(themeMenu);
         $('#theme-switcher-wrapper').hide();
 
         $.each(manifest.themes, function(index, value) {
@@ -237,33 +236,73 @@ $(document).ready(function() {
         $('#theme-switcher-wrapper span').text('Theme: ' + theme);
     }
 
-    if (devMode && config.editorOptions.themeSwitcher) {
+    function applyConfig() {
+        config.serverAddress = $('#editor-opt-server-address').val();
+        config.serverPort = $('#editor-opt-server-port').val();
+        config.serverGame = $('#editor-opt-server-game').val();
+
+        // build the remote qstat URL and adds it to the config
+        config.qstatXML = config.qstatAddress +
+                            '&game=' + config.serverGame +
+                            '&server=' + config.serverAddress +
+                            ':' + config.serverPort;
+        populateServerPanel();
+    }
+
+    function exportConfig() {
+        console.log(config);
+    }
+
+    function enableEditor() {
         themeSwitcher();
-    } else {
+
+        $('#editor-opt-server-address').val(config.serverAddress);
+        $('#editor-opt-server-port').val(config.serverPort);
+        $('#editor-opt-server-game').val(config.serverGame);
+
+        $('#editor-apply-config').click(function() {
+            applyConfig();
+        });
+
+        $('#editor-export-config').click(function() {
+            exportConfig();
+        });
+
+        $('#editor-opener').click(function() {
+            toggleEditor();
+        });
+        $("#editor-close").click(function() {
+            toggleEditor(); 
+        });
+    }
+
+    function toggleEditor() {
+        var $console = $('#editor-panel');
+        if ($console.hasClass("visible")) {
+            $console.removeClass('visible').animate({'margin-right':'-300px'});
+            devMode = false;
+            removeDevCookie();
+            populateServerPanel();
+        } else {
+            $console.addClass('visible').animate({'margin-right':'0px'});
+            devMode = true;
+            setDevCookie();
+            populateServerPanel();
+        } 
+        return false; 
+    }
+
+    if (devMode == false) {
         new Konami(function() {
-            themeSwitcher();
+            enableEditor();
         });
     }
 
     if (config.enableEditor) {
-        $('#devmode').click(function() {
-            if (devMode) {
-                devMode = false;
-                removeDevCookie();
-                populateServerPanel();
-                $('#theme-switcher-wrapper').hide();
-            } else {
-                devMode = true;
-                themeSwitcher();
-                setDevCookie();
-                populateServerPanel();
-                $('#theme-switcher-wrapper').show();
-            }
-        });
+        enableEditor();
     } else {
-        $('#devmode').hide();
+        $('#editor-opener').hide();
     }
-
 
     // Handle tabs on page reload
 
