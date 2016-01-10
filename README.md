@@ -13,7 +13,7 @@ A boilerplate for setting up an informational page for your Xonotic game server.
 #### Quick Start
 
 1. Fork this repository
-2. Edit `config/site.js` with your server information (this can be generated with the GUI)
+2. Edit `config/site.js` with your server information (this can be generated with the GUI and exported as a zip)
 3. Edit `config/manifest.js` to define your map list and link to blog posts
 4. To write blog posts, add markdown files to `resources/data/blog`, be sure to include them explicitly in `config/manifest.js`
 
@@ -46,6 +46,9 @@ var config = {
 
     // local or remote for bspname.jpg
     mapshotDir: 'http://xonotic.co/resources/mapshots/maps/',
+    
+    // theme (can be overriden by user's choice if switcher is enabled)
+    theme: 'default',
 
     // IRC channel
     ircChannel: 'smb',
