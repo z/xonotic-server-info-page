@@ -12,7 +12,16 @@ var config = {
     qstatLocalXML: 'resources/data/qstat.xml',
 
     // local or remote for bspname.jpg
-    mapPicDir: 'http://xonotic.co/resources/mapshots/maps/'
+    mapPicDir: 'http://xonotic.co/resources/mapshots/maps/',
+
+    // allow for devmode
+    enableEditor: true,
+
+    // debug options in developer mode
+    editorOptions: {
+        useLocalXML: true,
+        themeSwitcher: true
+    }
 
 };
 

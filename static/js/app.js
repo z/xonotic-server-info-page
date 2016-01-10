@@ -85,7 +85,6 @@ $(document).ready(function() {
         var imageExtensions = ['jpg','png'];
         $.each(imageExtensions, function(index, value) {
             var imgURL = config.mapPicDir + map + '.' + value;
-//            console.log(imgURL);
             isValidImage(map, imgURL, findMapImageCallback);
         });
         return false;
@@ -96,7 +95,7 @@ $(document).ready(function() {
         var x2js = new X2JS();
 
         // for development, it's faster to query local xml
-        if (devMode) {
+        if (devMode && config.editorOptions.useLocalXML) {
             var qstatXML = config.qstatLocalXML;
         } else {
             var qstatXML = config.qstatXML;
@@ -198,6 +197,10 @@ $(document).ready(function() {
     // themeSwitcher Widget
     function themeSwitcher() {
 
+        if ( config.editorOptions.themeSwitcher == false ) {
+            return false;
+        }
+
         // Setup menu
 
         var themeMenu = '<li id="theme-switcher-wrapper" class="navbar-btn"><div class="dropdown btn-group">' +
@@ -234,7 +237,7 @@ $(document).ready(function() {
         $('#theme-switcher-wrapper span').text('Theme: ' + theme);
     }
 
-    if (devMode) {
+    if (devMode && config.editorOptions.themeSwitcher) {
         themeSwitcher();
     } else {
         new Konami(function() {
@@ -242,20 +245,24 @@ $(document).ready(function() {
         });
     }
 
-    $('#devmode').click(function() {
-        if (devMode) {
-            devMode = false;
-            removeDevCookie();
-            populateServerPanel();
-            $('#theme-switcher-wrapper').hide();
-        } else {
-            devMode = true;
-            themeSwitcher();
-            setDevCookie();
-            populateServerPanel();
-            $('#theme-switcher-wrapper').show();
-        }
-    });
+    if (config.enableEditor) {
+        $('#devmode').click(function() {
+            if (devMode) {
+                devMode = false;
+                removeDevCookie();
+                populateServerPanel();
+                $('#theme-switcher-wrapper').hide();
+            } else {
+                devMode = true;
+                themeSwitcher();
+                setDevCookie();
+                populateServerPanel();
+                $('#theme-switcher-wrapper').show();
+            }
+        });
+    } else {
+        $('#devmode').hide();
+    }
 
 
     // Handle tabs on page reload
