@@ -71,6 +71,9 @@ div.dt-buttons {
     overflow: none;
     height: 95%;
 }
+#config-options h4 {
+    margin:20px 0 0;
+}
 #config-options label {
     margin-top:10px;
     display: block;

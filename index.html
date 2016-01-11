@@ -222,43 +222,46 @@
 
     <div id="editor-panel" class="panel panel-info">
         <div class="panel-heading">
-            <h4 class="panel-title">Configuration Options <span class="pull-right"><i id="editor-close" class="fa fa-close"></i></span></h4>
+            <h3 class="panel-title">Configuration Options <span class="pull-right"><i id="editor-close" class="fa fa-close"></i></span></h3>
         </div>
         <div class="panel-body">
             <div id="editor-options">
                 <div id="config-options">
-                        <div class="row">
-                            <div class="col-xs-8">
-                                <label>Server Address</label> <input type="text" id="editor-opt-server-address" class="form-control input-sm" placeholder="Server Address" />
-                            </div>
-                            <div class="col-xs-4">
-                                <label>Port</label> <input type="text" id="editor-opt-server-port" class="form-control input-sm"  placeholder="Server Port" />
-                            </div>
+                    <h4>Server</h4>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <label>Address</label> <input type="text" id="editor-opt-server-address" class="form-control input-sm" placeholder="Server Address" />
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label>Game</label>
-                                <select id="editor-opt-server-game" class="form-control input-sm">
-                                    <option>xonotic</option>
-                                    <option>warsow</option>
-                                    <option>nexuiz</option>
-                                    <option>openarena</option>
-                                    <option>urbanterror</option>
-                                    <option>tremulous</option>
-                                    <option>steelstorm</option>
-                                    <option>wolfet</option>
-                                    <option>transfusion</option>
-                                    <option>quake</option>
-                                </select>
-                                <label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
-                                <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
-                                <label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label>
-                                <div class="buttons">
-                                    <button id="editor-apply-config" class="btn btn-primary"><i class="fa fa-check-circle"></i> Apply</button>
-                                    <button id="editor-export-config" class="btn btn-primary"><i class="fa fa-download"></i> Download</button>
-                                </div>
-                            </div><!-- .col -->
-                        </div><!-- .row -->
+                        <div class="col-xs-4">
+                            <label>Port</label> <input type="text" id="editor-opt-server-port" class="form-control input-sm"  placeholder="Server Port" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Game</label>
+                            <select id="editor-opt-server-game" class="form-control input-sm">
+                                <option>xonotic</option>
+                                <option>warsow</option>
+                                <option>nexuiz</option>
+                                <option>openarena</option>
+                                <option>urbanterror</option>
+                                <option>tremulous</option>
+                                <option>steelstorm</option>
+                                <option>wolfet</option>
+                                <option>transfusion</option>
+                                <option>quake</option>
+                            </select>
+                            <h4>Chat</h4>
+                            <label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
+                            <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
+                            <h4>Global</h4>
+                            <label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label>
+                            <div class="buttons">
+                                <button id="editor-apply-config" class="btn btn-primary"><i class="fa fa-check-circle"></i> Apply</button>
+                                <button id="editor-export-config" class="btn btn-primary"><i class="fa fa-download"></i> Download</button>
+                            </div>
+                        </div><!-- .col -->
+                    </div><!-- .row -->
                 </div><!-- #config-options -->
             </div><!-- #editor-options -->
         </div><!-- .panel-body -->
