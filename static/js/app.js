@@ -115,9 +115,10 @@ $(document).ready(function() {
                 $('#server-maxplayers').text(qs.maxplayers);
                 $('#server-gametype').text("gametype: " + qs.gametype);
 
-                playerListTable.clear();
+                playerListTable.clear().draw();
 
                 if ( qs.players && qs.players != "" ) {
+
                     $.each(qs.players.player, function(index, player) {
                         if ( qs.players.player[index].hasOwnProperty('team') != true ) {
                             qs.players.player[index].team = -1;
