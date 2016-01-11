@@ -77,6 +77,9 @@ $(document).ready(function() {
 
     // get qStat xml from dpmaster and create a JSON object
     function populateServerPanel() {
+
+        $('#server-refreshing').show();
+        
         var x2js = new X2JS();
 
         // for development, it's faster to query local xml
@@ -93,13 +96,17 @@ $(document).ready(function() {
             var qs = qstatJSON.qstat.server;
 
             $("#server-down").hide();
+
+            $('#map-pic').attr('src', './resources/images/no_map_pic.png')
+            $('#server-name').html(qs.name);
+            $('#server-map').text("map title: ");
+            $('#server-numplayers').text("");
+            $('#server-maxplayers').text("");
+            $('#server-gametype').text("gametype: ");
             
             if (qs._status == "UP") {
 
-                // this looks stupid and it is, but it will put the placeholder image
-                // in while it starts to get the real image
-                $('#map-pic').attr('src', './resources/images/no_map_pic.png')
-                                .attr('src', config.mapshotDir + qs.map + config.mapshotExtension);
+                $('#map-pic').attr('src', config.mapshotDir + qs.map + config.mapshotExtension);
 
                 // Gametype is only avaiable in qs rules status for many games
                 qs.gametype = "";
@@ -126,9 +133,12 @@ $(document).ready(function() {
                     });
 
                     playerListTable.rows.add(qs.players.player).draw();
+                        
+                    $('#server-refreshing').fadeOut();
 
                 }
             } else {
+                $('#server-refreshing').fadeOut();
                 $("#server-down").fadeIn();
             }
         });
