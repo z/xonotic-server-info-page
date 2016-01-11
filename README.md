@@ -26,8 +26,6 @@ You can use the github interface to write blog posts, and maintain the site.
 
 #### Advanced Configuration
 
-If you see a theme you like, you can set the `src` tag of `<link id="theme" ... >` found in `index.html`.
-
 Example `config/site.js`:
 
 ```js
@@ -78,6 +76,17 @@ var manifest = {
             port: '26010',
             game: 'xonotic',
             // list of bsp names
+            mapList: [
+                'swing',
+                'boxflip',
+                'accident_minsta',
+            ]
+        },
+        {
+            id: 'kansas',
+            address: '96.44.146.149',
+            port: '26000',
+            game: 'xonotic',
             mapList: [
                 'vinegar_v3',
                 'dance_nex',

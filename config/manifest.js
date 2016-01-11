@@ -9,6 +9,17 @@ var manifest = {
             game: 'xonotic',
             // list of bsp names
             mapList: [
+                'swing',
+                'boxflip',
+                'accident_minsta',
+            ]
+        },
+        {
+            id: 'kansas',
+            address: '96.44.146.149',
+            port: '26000',
+            game: 'xonotic',
+            mapList: [
                 'vinegar_v3',
                 'dance_nex',
                 'accident_v3',

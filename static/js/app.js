@@ -36,12 +36,17 @@ $(document).ready(function() {
 
         var mapListData = [];
 
-        $.each(manifest.servers[0].mapList, function(index, mapname) {
-            mapListData.push({
-                name: mapname,
-                thumbnail: config.mapshotDir + mapname + config.mapshotExtension
+        $.each(manifest.servers, function(index, server) {
+            $.each(server.mapList, function(index, mapname) {
+                mapListData.push({
+                    name: mapname,
+                    thumbnail: config.mapshotDir + mapname + config.mapshotExtension,
+                    server: server.id
+                });
             });
         });
+
+        console.log(mapListData);
 
         mapListTable = $('#server-maplist').DataTable({
             data: mapListData,
@@ -55,6 +60,7 @@ $(document).ready(function() {
             columns: [
                 { data: "name" },
                 { data: "thumbnail" },
+                { data: "server" },
             ],
             columnDefs: [
                 {
