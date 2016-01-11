@@ -133,14 +133,14 @@ $(document).ready(function() {
                     });
 
                     playerListTable.rows.add(qs.players.player).draw();
-                        
-                    $('#server-refreshing').fadeOut();
 
                 }
+ 
             } else {
-                $('#server-refreshing').fadeOut();
                 $("#server-down").fadeIn();
             }
+             
+            $('#server-refreshing').fadeOut();
         });
 
     }
@@ -289,7 +289,6 @@ $(document).ready(function() {
     }
 
     function enableEditor() {
-        themeSwitcher();
 
         $('#editor-opt-server-address').val(config.servers[0].address);
         $('#editor-opt-server-port').val(config.servers[0].port);
@@ -324,6 +323,20 @@ $(document).ready(function() {
 
     }
 
+    function initEditor() {
+        if (devMode == false) {
+            new Konami(function() {
+                enableEditor();
+            });
+        }
+
+        if (config.enableEditor) {
+            enableEditor();
+        } else {
+            $('#editor-opener').hide();
+        }
+    }
+
     function toggleEditor() {
         var $console = $('#editor-panel');
         if ($console.hasClass("visible")) {
@@ -356,11 +369,26 @@ $(document).ready(function() {
         }
     }
 
+    // Handle tabs on page reload
+    function handleTabs() {
+        // Javascript to enable link to tab
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.navbar-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+        } 
+
+        // Change hash for page-reload
+        $('.navbar-tabs a').on('shown.bs.tab', function (e) {
+            history.pushState( null, null, $(this).attr('href') );
+            window.location.hash = e.target.hash;
+        });
+    }
+
     initPlayerListTable();
 
-    initMapListTable();
-
     populateServerPanel();
+
+    initMapListTable();
 
     initTimer();
 
@@ -368,31 +396,11 @@ $(document).ready(function() {
 
     populateBlog();
 
-    if (devMode == false) {
-        new Konami(function() {
-            enableEditor();
-        });
-    }
+    handleTabs();
 
-    if (config.enableEditor) {
-        enableEditor();
-    } else {
-        $('#editor-opener').hide();
-    }
+    themeSwitcher();
 
-    // Handle tabs on page reload
-
-    // Javascript to enable link to tab
-    var url = document.location.toString();
-    if (url.match('#')) {
-        $('.navbar-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
-    } 
-
-    // Change hash for page-reload
-    $('.navbar-tabs a').on('shown.bs.tab', function (e) {
-        history.pushState( null, null, $(this).attr('href') );
-        window.location.hash = e.target.hash;
-    })
+    initEditor();
 
 } );
 
