@@ -188,28 +188,39 @@
         </div>
         <div class="panel-body">
             <div id="editor-options">
-                <ul id="config-options">
-                    <li><label>Server Address</label> <input type="text" id="editor-opt-server-address" placeholder="Server Address" /></li>
-                    <li><label>Port</label> <input type="text" id="editor-opt-server-port" placeholder="Server Port" /></li>
-                    <li><label>Server Game</label>
-                        <select id="editor-opt-server-game" class="form-control input-sm">
-                            <option>xonotic</option>
-                            <option>warsow</option>
-                            <option>nexuiz</option>
-                            <option>openarena</option>
-                            <option>urbanterror</option>
-                            <option>tremulous</option>
-                            <option>steelstorm</option>
-                            <option>wolfet</option>
-                            <option>transfusion</option>
-                            <option>quake</option>
-                        </select>
-                    </li>
-                    <li><label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label></li>
-                    <li><label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" placeholder="IRC Channel" /></li>
-                    <li><label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label></li>
-                    <li><button id="editor-apply-config" class="btn btn-default">Apply</button> <button id="editor-export-config" class="btn btn-default">Export Config</button></li>
-                </ul><!-- #config-options -->
+                <div id="config-options">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label>Server Address</label> <input type="text" id="editor-opt-server-address" class="form-control input-sm" placeholder="Server Address" />
+                            </div>
+                            <div class="col-xs-4">
+                                <label>Port</label> <input type="text" id="editor-opt-server-port" class="form-control input-sm"  placeholder="Server Port" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Game</label>
+                                <select id="editor-opt-server-game" class="form-control input-sm">
+                                    <option>xonotic</option>
+                                    <option>warsow</option>
+                                    <option>nexuiz</option>
+                                    <option>openarena</option>
+                                    <option>urbanterror</option>
+                                    <option>tremulous</option>
+                                    <option>steelstorm</option>
+                                    <option>wolfet</option>
+                                    <option>transfusion</option>
+                                    <option>quake</option>
+                                </select>
+                                <label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
+                                <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
+                                <label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label>
+                                <div class="buttons">
+                                    <button id="editor-apply-config" class="btn btn-default">Apply</button> <button id="editor-export-config" class="btn btn-default">Export Config</button>
+                                </div>
+                            </div><!-- .col -->
+                        </div><!-- .row -->
+                </div><!-- #config-options -->
             </div><!-- #editor-options -->
         </div><!-- .panel-body -->
     </div><!-- #editor-panel -->

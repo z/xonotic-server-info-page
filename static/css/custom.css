@@ -47,9 +47,19 @@ div.dt-buttons {
     height:100%;
     margin-right:-300px;
     z-index:10000;
+    box-shadow: 8px 3px 10px 4px #222
+}
+#editor-panel > .panel-heading {
+    border-radius: 0;
 }
 #editor-panel h4 {
     margin-top: 0;
+}
+#editor-panel > .panel-body {
+    padding-top:0;
+}
+#editor-panel .buttons {
+    margin-top:15px;
 }
 #editor-opener {
     float:left;
@@ -58,19 +68,12 @@ div.dt-buttons {
     cursor: pointer;
 }
 #editor-options {
-    overflow: auto;
+    overflow: none;
     height: 95%;
 }
-#config-options {
-    list-style:none;
-    padding-left:0;
-}
-
 #config-options label {
+    margin-top:10px;
     display: block;
-}
-#config-options > li {
-    margin-bottom:10px;
 }
 
 .icon {
