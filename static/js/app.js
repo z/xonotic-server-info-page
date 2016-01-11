@@ -151,7 +151,6 @@ $(document).ready(function() {
 
                 }
             } else {
-                console.log("server is down");
                 $("#server-down").fadeIn();
             }
         });
@@ -160,26 +159,38 @@ $(document).ready(function() {
 
     function populateBlog() {
 
+        var formattedPosts = {};
+
         $.each(manifest.posts, function(index, post) {
 
-            $.get("resources/data/blog/" + post + ".md", function(data) {
+            $.ajax({
+                url: 'resources/data/blog/' + post + '.md',
+                async: false,
+                success: function (data) {
 
-                var endfm = data.nthIndexOf("---",2);
-                var fm = data.slice(4, endfm);
-                var content = data.slice(endfm + 3);                      
-                var metaData = jsyaml.load(fm);
+                    var endfm = data.nthIndexOf("---",2);
+                    var fm = data.slice(4, endfm);
+                    var content = data.slice(endfm + 3);                      
+                    var metaData = jsyaml.load(fm);
 
-                $('#blog').append('<div class="post">' +
-                                    '<h2>' + metaData.title + '</h2>' +
-                                    '<h5><i class="fa fa-calendar"></i> ' + metaData.date + ' posted by <i class="fa fa-user"></i> ' + metaData.author + ' in ' + '<i class="fa fa-tag"></i> <span class="label label-info">' + metaData.category + '</span>' + '</h5>' +
-                                    '<hr />' +
-                                    '<p>' + marked(content) + '</p>' +
-                                    '<p></p>' +
-                                  '</div>'
-                );
+                    formattedPosts[metaData.title] = '<div class="post">' +
+                                                '<h2>' + metaData.title + '</h2>' +
+                                                '<h5><i class="fa fa-calendar"></i> ' + metaData.date + ' posted by <i class="fa fa-user"></i> ' + metaData.author + ' in ' + '<i class="fa fa-tag"></i> <span class="label label-info">' + metaData.category + '</span>' + '</h5>' +
+                                                '<hr />' +
+                                                '<p>' + marked(content) + '</p>' +
+                                                '<p></p>' +
+                                              '</div>';
 
-            });
+                    $('#blog').append(formattedPosts[metaData.title]);
 
+                }
+
+            }); // ajax
+
+        }); // each
+
+        $.each(manifest.posts, function(index, post) {
+           $('#blog').append(formattedPosts[post]);
         });
        
     }
@@ -359,7 +370,6 @@ $(document).ready(function() {
 
     function toggleLoadChatButton($el) {
         var enabled = $el.prop('checked');
-        console.log(enabled);
         config.enableLoadChatButton = enabled;
     }
 
