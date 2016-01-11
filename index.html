@@ -116,14 +116,14 @@
 
             </div><!-- .tab-pane -->
 
-            <div id="chat" class="tab-pane">
+            <div id="about" class="tab-pane">
 
                 <div class="panel">
                     <div class="panel-body">
 
-                        <div id="chat-wrapper">
-                            <a id="btn-chat-load" class="btn btn-default">Load Chat Client</a>
-                        </div>
+                        <h2>About This Server</h2>
+
+                        <p>The server admin has not written any information about their server yet</p>
 
                     </div><!-- .panel-body -->
                 </div><!-- .panel -->
@@ -136,13 +136,13 @@
                     <div class="panel-body">
 
                         <table id="server-maplist" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Thumbnail</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Thumbnail</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
                         </table>
 
                     </div><!-- .panel-body -->
@@ -150,14 +150,20 @@
 
             </div><!-- .tab-pane -->
 
-            <div id="about" class="tab-pane">
+            <div id="chat" class="tab-pane">
 
                 <div class="panel">
                     <div class="panel-body">
 
-                        <h2>About This Server</h2>
+                        <div id="chat-wrapper">
 
-                        <p>The server admin has not written any information about their server yet</p>
+                            <div>
+                                <h2>Find us on IRC</h2>
+                                <p>If you're familiar with IRC, you can find us on <b>irc.quakenet.net</b> in the channel <b>#mychannel</b>.</p>
+                                <p>Alternatively, you can click the button below, an iframe with quakenet's webchat will load and ask you to choose a nick name before joining.</p>
+                            </div>
+                            <a id="btn-chat-load" class="btn btn-primary">Load Chat Client</a>
+                        </div>
 
                     </div><!-- .panel-body -->
                 </div><!-- .panel -->

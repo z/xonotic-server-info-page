@@ -159,8 +159,6 @@ $(document).ready(function() {
 
     function populateBlog() {
 
-        var formattedPosts = {};
-
         $.each(manifest.posts, function(index, post) {
 
             $.ajax({
@@ -173,21 +171,24 @@ $(document).ready(function() {
                     var content = data.slice(endfm + 3);                      
                     var metaData = jsyaml.load(fm);
 
-                    formattedPosts[post] = '<div class="post">' +
-                                                '<h2>' + metaData.title + '</h2>' +
-                                                '<h5><i class="fa fa-calendar"></i> ' + metaData.date + ' posted by <i class="fa fa-user"></i> ' + metaData.author + ' in ' + '<i class="fa fa-tag"></i> <span class="label label-info">' + metaData.category + '</span>' + '</h5>' +
-                                                '<hr />' +
-                                                '<p>' + marked(content) + '</p>' +
-                                                '<p></p>' +
-                                              '</div>';
+                    formattedPost = '<div class="post">' +
+                                        '<h2>' + metaData.title + '</h2>' +
+                                        '<h5><i class="fa fa-calendar"></i> ' + metaData.date + ' posted by <i class="fa fa-user"></i> ' + metaData.author + ' in ' + '<i class="fa fa-tag"></i> <span class="label label-info">' + metaData.category + '</span>' + '</h5>' +
+                                        '<hr />' +
+                                        '<p>' + marked(content) + '</p>' +
+                                        '<p></p>' +
+                                      '</div>';
 
-                    $('#blog').append(formattedPosts[post]);
+                    $('#blog').append(formattedPost);
 
                 }
 
             }); // ajax
 
         }); // each
+
+        $.each(manifest.posts, function(index, post) {
+        });
        
     }
 
