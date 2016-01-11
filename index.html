@@ -69,11 +69,6 @@
                             <h3 class="text-warning">This webpage requires javascript</h3>
                         </noscript>
 
-                        <div class="alert alert-danger alert-dismissible" role="alert" id="server-down">
-                            <h4>Game server is down!</h4>
-                            <p>The master server is reporting the configured game server address is DOWN.</p>
-                        </div>
-
                         <!-- Current Server Stats -->
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -81,32 +76,39 @@
                             </div>
                             <div class="panel-body">
 
-                                <div class="row">
-                                    <div class="col-xs-3">
-
-                                        <div class="thumbnail">
-                                            <img src="./resources/images/no_map_pic.png" title="no map pic" id="map-pic" />
-                                        </div>
-                                        <h4 id="server-map">map title: </h4>               
-                                        <p>players: <span id="server-numplayers">0</span> / <span id="server-maxplayers">0</span></p>
-                                        <p id="server-gametype">gametype: </p>
-                                    </div>
-                                    <div class="col-xs-9">
-
-                                        <table id="server-playerlist" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Ping</th>
-                                                        <th>Score</th>
-                                                        <th>Team</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                        </table>
-
-                                    </div>
+                                <div class="alert alert-danger alert-dismissible" role="alert" id="server-down" style="display:none;">
+                                    <h4>Game server is down!</h4>
+                                    <p>The master server is reporting the configured game server address is DOWN.</p>
                                 </div>
+
+                                <div class="server-info">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+
+                                            <div class="thumbnail">
+                                                <img src="./resources/images/no_map_pic.png" title="no map pic" id="map-pic" />
+                                            </div>
+                                            <h4 id="server-map">map title: </h4>               
+                                            <p>players: <span id="server-numplayers">0</span> / <span id="server-maxplayers">0</span></p>
+                                            <p id="server-gametype">gametype: </p>
+                                        </div>
+                                        <div class="col-xs-9">
+
+                                            <table id="server-playerlist" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Ping</th>
+                                                            <th>Score</th>
+                                                            <th>Team</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div><!-- .server-info -->
 
                             </div>
                         </div>
@@ -227,7 +229,8 @@
                                 <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
                                 <label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label>
                                 <div class="buttons">
-                                    <button id="editor-apply-config" class="btn btn-default">Apply</button> <button id="editor-export-config" class="btn btn-default">Export Config</button>
+                                    <button id="editor-apply-config" class="btn btn-primary"><i class="fa fa-check-circle"></i> Apply</button>
+                                    <button id="editor-export-config" class="btn btn-primary"><i class="fa fa-download"></i> Download Config</button>
                                 </div>
                             </div><!-- .col -->
                         </div><!-- .row -->

@@ -34,9 +34,13 @@ Example `config/site.js`:
 var config = {
 
     // Game Server config
-    serverAddress: '96.44.146.149',
-    serverPort: '26000',
-    serverGame: 'xonotic',
+    servers: [
+        {
+            address: '96.44.146.149',
+            port: '26010',
+            game: 'xonotic'
+        }
+    ],
 
     // the remote address where a qstat xml can be returned
     qstatAddress: 'http://dpmaster.deathmask.net/?&xml=1&showplayers=1',
