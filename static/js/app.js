@@ -380,6 +380,7 @@ $(document).ready(function() {
 
     // Change hash for page-reload
     $('.navbar-tabs a').on('shown.bs.tab', function (e) {
+        history.pushState( null, null, $(this).attr('href') );
         window.location.hash = e.target.hash;
     })
 
