@@ -1,15 +1,24 @@
 var manifest = {
 
-    // list of bsp names
-    mapList: [
-        'vinegar_v3',
-        'dance_nex',
-        'accident_v3',
-        'battlevalentine',
-        'furious',
-        'gforce2',
-        'got_wood',
-        'gothic_block'
+    // Game Server config
+    servers: [
+        {
+            id: 'insta',
+            address: '96.44.146.149',
+            port: '26010',
+            game: 'xonotic',
+            // list of bsp names
+            mapList: [
+                'vinegar_v3',
+                'dance_nex',
+                'accident_v3',
+                'battlevalentine',
+                'furious',
+                'gforce2',
+                'got_wood',
+                'gothic_block'
+            ]
+        }
     ],
 
     // list the posts you'd like to show here

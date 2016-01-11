@@ -1,14 +1,5 @@
 var config = {
 
-    // Game Server config
-    servers: [
-        {
-            address: '96.44.146.149',
-            port: '26010',
-            game: 'xonotic'
-        }
-    ],
-
     // the remote address where a qstat xml can be returned
     qstatAddress: 'http://dpmaster.deathmask.net/?&xml=1&showplayers=1',
 

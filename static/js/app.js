@@ -36,7 +36,7 @@ $(document).ready(function() {
 
         var mapListData = [];
 
-        $.each(manifest.mapList, function(index, mapname) {
+        $.each(manifest.servers[0].mapList, function(index, mapname) {
             mapListData.push({
                 name: mapname,
                 thumbnail: config.mapshotDir + mapname + config.mapshotExtension
@@ -70,9 +70,9 @@ $(document).ready(function() {
     function buildStatURL() {
         // build the remote qstat URL and adds it to the config
         config.qstatXML = config.qstatAddress +
-                            '&game=' + config.servers[0].game +
-                            '&server=' + config.servers[0].address +
-                            ':' + config.servers[0].port;
+                            '&game=' + manifest.servers[0].game +
+                            '&server=' + manifest.servers[0].address +
+                            ':' + manifest.servers[0].port;
     }
 
     // get qStat xml from dpmaster and create a JSON object
@@ -263,9 +263,9 @@ $(document).ready(function() {
     }
 
     function applyConfig() {
-        config.servers[0].address = $('#editor-opt-server-address').val();
-        config.servers[0].port = $('#editor-opt-server-port').val();
-        config.servers[0].game = $('#editor-opt-server-game').val();
+        manifest.servers[0].address = $('#editor-opt-server-address').val();
+        manifest.servers[0].port = $('#editor-opt-server-port').val();
+        manifest.servers[0].game = $('#editor-opt-server-game').val();
         config.enableLoadChatButton = $('#editor-opt-load-chat-button').val();
         config.ircChannel = $('#editor-opt-irc-channel').val();
 
@@ -290,9 +290,9 @@ $(document).ready(function() {
 
     function enableEditor() {
 
-        $('#editor-opt-server-address').val(config.servers[0].address);
-        $('#editor-opt-server-port').val(config.servers[0].port);
-        $('#editor-opt-server-game').val(config.servers[0].game);
+        $('#editor-opt-server-address').val(manifest.servers[0].address);
+        $('#editor-opt-server-port').val(manifest.servers[0].port);
+        $('#editor-opt-server-game').val(manifest.servers[0].game);
         $('#editor-opt-load-chat-button').prop('checked', config.enableLoadChatButton);
         $('#editor-opt-irc-channel').val(config.ircChannel);
         $('#editor-opt-theme-switcher').prop('checked', config.enableThemeSwitcher);

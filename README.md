@@ -33,15 +33,6 @@ Example `config/site.js`:
 ```js
 var config = {
 
-    // Game Server config
-    servers: [
-        {
-            address: '96.44.146.149',
-            port: '26010',
-            game: 'xonotic'
-        }
-    ],
-
     // the remote address where a qstat xml can be returned
     qstatAddress: 'http://dpmaster.deathmask.net/?&xml=1&showplayers=1',
 
@@ -74,28 +65,37 @@ var config = {
 };
 ```
 
-Example `manifest.js`:
+Example `config/manifest.js`:
 
 ```js
 var manifest = {
 
-    // list of bsp names
-    mapList: [
-        'vinegar_v3',
-        'dance_nex',
-        'accident_v3',
-        'battlevalentine',
-        'furious',
-        'gforce2',
-        'got_wood',
-        'gothic_block'
+    // Game Server config
+    servers: [
+        {
+            id: 'insta',
+            address: '96.44.146.149',
+            port: '26010',
+            game: 'xonotic',
+            // list of bsp names
+            mapList: [
+                'vinegar_v3',
+                'dance_nex',
+                'accident_v3',
+                'battlevalentine',
+                'furious',
+                'gforce2',
+                'got_wood',
+                'gothic_block'
+            ]
+        }
     ],
 
     // list the posts you'd like to show here
     // latest first
     posts: [
-            'second-post',
-            'first-post'
+        'second-post',
+        'first-post'
     ],
 
     // Define Themes
