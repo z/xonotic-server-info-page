@@ -113,13 +113,15 @@ $(document).ready(function() {
             
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
+
+            $("#server-down").hide();
             
             if (qs._status == "UP") {
 
                 $('#map-pic').attr('src', './resources/images/no_map_pic.png');
 
                 if ( cachedMapPics.hasOwnProperty(qs.map) ) {
-                    serverListMapImageCallback(cachedMapPics[qs.map].url, true);
+                    serverListMapImageCallback(qs.map, cachedMapPics[qs.map].url, true);
                 } else {
                     findMapImage(qs.map, serverListMapImageCallback);
                 }
@@ -150,6 +152,7 @@ $(document).ready(function() {
                 }
             } else {
                 console.log("server is down");
+                $("#server-down").fadeIn();
             }
         });
 
