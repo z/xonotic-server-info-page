@@ -1,64 +1,71 @@
 $(document).ready(function() {
 
     var devMode = $.cookie('dev') ? true : false;
-    var cachedMapPics = [];
 
-    var playerListTable = $('#server-playerlist').DataTable({
-        dataSrc: '',
-        language: {
-                  emptyTable: "No Players Currently On The Server"
-        },
-        dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        conditionalPaging: true,
-        columns: [
-            { data: "name" },
-            { data: "ping" },
-            { data: "score" },
-            { data: "team" }
-        ],
-        columnDefs: [
-            {
-                // handle missing team
-                targets: 3,
-                render: function ( data, type, full, meta ) {
-                    return (data == -1) ? 0 : data;
+    var playerListTable = false;
+    var mapListTable = false;
+
+    function initPlayerListTable() {
+        playerListTable = $('#server-playerlist').DataTable({
+            dataSrc: '',
+            language: {
+                      emptyTable: "No Players Currently On The Server"
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            conditionalPaging: true,
+            columns: [
+                { data: "name" },
+                { data: "ping" },
+                { data: "score" },
+                { data: "team" }
+            ],
+            columnDefs: [
+                {
+                    // handle missing team
+                    targets: 3,
+                    render: function ( data, type, full, meta ) {
+                        return (data == -1) ? 0 : data;
+                    }
                 }
-            }
-        ]
-    });
-
-    var mapListData = [];
-    $.each(manifest.mapList, function(index, mapname) {
-        mapListData.push({
-            name: mapname,
-            thumbnail: config.mapshotDir + mapname + '.jpg'
+            ]
         });
-    });
+    }
 
-    var mapListTable = $('#server-maplist').DataTable({
-        data: mapListData,
-        dataSrc: '',
-        language: {
-                  emptyTable: "The admin has not listed any maps"
-        },
-        dom: "<'row'<'col-sm-12'f>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-        columns: [
-            { data: "name" },
-            { data: "thumbnail" },
-        ],
-        columnDefs: [
-            {
-                targets: 1,
-                render: function ( data, type, full, meta ) {       
-                    //findMapImage(data, mapListMapImageCallback);
-                    return '<img src="' + data + '" title="mapshot" height="200" />';
+    function initMapListTable() {
+
+        var mapListData = [];
+
+        $.each(manifest.mapList, function(index, mapname) {
+            mapListData.push({
+                name: mapname,
+                thumbnail: config.mapshotDir + mapname + config.mapshotExtension
+            });
+        });
+
+        mapListTable = $('#server-maplist').DataTable({
+            data: mapListData,
+            dataSrc: '',
+            language: {
+                      emptyTable: "The admin has not listed any maps"
+            },
+            dom: "<'row'<'col-sm-12'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columns: [
+                { data: "name" },
+                { data: "thumbnail" },
+            ],
+            columnDefs: [
+                {
+                    targets: 1,
+                    render: function ( data, type, full, meta ) {       
+                        return '<img src="' + data + '" title="mapshot" height="200" />';
+                    }
                 }
-            }
-        ]
-    });
+            ]
+        });
+    }
 
     function buildStatURL() {
         // build the remote qstat URL and adds it to the config
@@ -66,35 +73,6 @@ $(document).ready(function() {
                             '&game=' + config.servers[0].game +
                             '&server=' + config.servers[0].address +
                             ':' + config.servers[0].port;
-    }
-
-    function isValidImage(map, url, callback) {
-        var img = new Image();
-        img.onload =  function() { callback(map, url, true); }
-        img.src = url;
-    }
-
-    function serverListMapImageCallback(map, url, answer) {
-        if (answer) {
-            cachedMapPics[map] = { "url": url };
-            $('#map-pic').attr('src', url);
-        }
-    }
-
-    function mapListMapImageCallback(map, url, answer) {
-        console.log(answer + ": " + url);
-        if (answer) {
-            return url;
-        }
-    }
-
-    function findMapImage(map, findMapImageCallback) {
-        var imageExtensions = ['jpg','png'];
-        $.each(imageExtensions, function(index, value) {
-            var imgURL = config.mapshotDir + map + '.' + value;
-            isValidImage(map, imgURL, findMapImageCallback);
-        });
-        return false;
     }
 
     // get qStat xml from dpmaster and create a JSON object
@@ -118,13 +96,10 @@ $(document).ready(function() {
             
             if (qs._status == "UP") {
 
-                $('#map-pic').attr('src', './resources/images/no_map_pic.png');
-
-                if ( cachedMapPics.hasOwnProperty(qs.map) ) {
-                    serverListMapImageCallback(qs.map, cachedMapPics[qs.map].url, true);
-                } else {
-                    findMapImage(qs.map, serverListMapImageCallback);
-                }
+                // this looks stupid and it is, but it will put the placeholder image
+                // in while it starts to get the real image
+                $('#map-pic').attr('src', './resources/images/no_map_pic.png')
+                                .attr('src', config.mapshotDir + qs.map + config.mapshotExtension);
 
                 // Gametype is only avaiable in qs rules status for many games
                 qs.gametype = "";
@@ -140,6 +115,8 @@ $(document).ready(function() {
                 $('#server-maxplayers').text(qs.maxplayers);
                 $('#server-gametype').text("gametype: " + qs.gametype);
 
+                playerListTable.clear();
+
                 if ( qs.players && qs.players != "" ) {
                     $.each(qs.players.player, function(index, player) {
                         if ( qs.players.player[index].hasOwnProperty('team') != true ) {
@@ -147,7 +124,7 @@ $(document).ready(function() {
                         }
                     });
 
-                    playerListTable.clear().rows.add(qs.players.player).draw();
+                    playerListTable.rows.add(qs.players.player).draw();
 
                 }
             } else {
@@ -204,10 +181,6 @@ $(document).ready(function() {
         });
     }
 
-    function loadChat() {
-        $("#chat-wrapper").html('<iframe src="https://webchat.quakenet.org/?channels=' + config.ircChannel + '&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>');
-    }
-
     function initChat() {
         if ( config.enableLoadChatButton ) {
             $("#btn-chat-load").click(function(e) {
@@ -219,13 +192,9 @@ $(document).ready(function() {
         }
     }
 
-    populateServerPanel();
-
-    initTimer();
-
-    initChat();
-
-    populateBlog();
+    function loadChat() {
+        $("#chat-wrapper").html('<iframe src="https://webchat.quakenet.org/?channels=' + config.ircChannel + '&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>');
+    }
 
 
     /*
@@ -375,6 +344,18 @@ $(document).ready(function() {
             $ts.hide();
         }
     }
+
+    initPlayerListTable();
+
+    initMapListTable();
+
+    populateServerPanel();
+
+    initTimer();
+
+    initChat();
+
+    populateBlog();
 
     if (devMode == false) {
         new Konami(function() {

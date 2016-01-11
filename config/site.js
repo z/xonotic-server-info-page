@@ -18,6 +18,9 @@ var config = {
     // local or remote for bspname.jpg
     mapshotDir: 'http://xonotic.co/resources/mapshots/maps/',
 
+    // extension of all the mapshots
+    mapshotExtension: '.jpg',
+
     // theme (can be overriden by user's choice if switcher is enabled)
     theme: 'default',
 
