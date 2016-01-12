@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var options = {};
+    var manifest = {};
     var playerListTable = {};
     var mapListTable = false;
 
@@ -79,7 +81,7 @@ $(document).ready(function() {
             $.each(server.mapList, function(index, mapname) {
                 mapListData.push({
                     name: mapname,
-                    thumbnail: config.mapshotDir + mapname + config.mapshotExtension,
+                    thumbnail: options.mapshotDir + mapname + options.mapshotExtension,
                     server: server.id
                 });
             });
@@ -112,7 +114,7 @@ $(document).ready(function() {
 
     function buildStatURL(server) {
         // build the remote qstat URL and adds it to the config
-        config.qstatXML = config.qstatAddress +
+        options.qstatXML = options.qstatAddress +
                             '&game=' + server.game +
                             '&server=' + server.address +
                             ':' + server.port;
@@ -126,12 +128,12 @@ $(document).ready(function() {
         var x2js = new X2JS();
 
         // for development, it's faster to query local xml
-        if (config.editorOptions && config.editorOptions.useLocalXML) {
-            var qstatXML = config.editorOptions.qstatLocalXML;
+        if (options.editorOptions && options.editorOptions.useLocalXML) {
+            var qstatXML = options.editorOptions.qstatLocalXML;
         } else {
             buildStatURL(server);
 
-            var qstatXML = config.qstatXML;
+            var qstatXML = options.qstatXML;
         }
 
         $.get(qstatXML, function(xml) {
@@ -152,7 +154,7 @@ $(document).ready(function() {
             
             if (qs._status == "UP") {
 
-                $(id + ' .map-pic').attr('src', config.mapshotDir + qs.map + config.mapshotExtension);
+                $(id + ' .map-pic').attr('src', options.mapshotDir + qs.map + options.mapshotExtension);
 
                 // Gametype is only avaiable in qs rules status for many games
                 qs.gametype = "";
@@ -254,7 +256,7 @@ $(document).ready(function() {
     }
 
     function initChat() {
-        if ( config.enableLoadChatButton ) {
+        if ( options.enableLoadChatButton ) {
             $("#btn-chat-load").click(function(e) {
                 e.preventDefault();
                 loadChat();
@@ -265,26 +267,27 @@ $(document).ready(function() {
     }
 
     function loadChat() {
-        $("#chat-wrapper").html('<iframe src="https://webchat.quakenet.org/?channels=' + config.ircChannel + '&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>');
+        $("#chat-wrapper").html('<iframe src="https://webchat.quakenet.org/?channels=' + options.ircChannel + '&uio=Mj10cnVlJjExPTIyNg70" width="100%" height="700"></iframe>');
     }
 
 
     /*
      * Theme Switcher
      */
+    function setupTheme() {
+        var userTheme = $.cookie('theme');
 
-    var userTheme = $.cookie('theme');
-
-    if (userTheme) {
-        setTheme(userTheme);
-    } else if (config.theme) {
-        setTheme(config.theme);
+        if (userTheme) {
+            setTheme(userTheme);
+        } else if (options.theme) {
+            setTheme(options.theme);
+        }
     }
 
     // initThemeSwitcher Widget
     function initThemeSwitcher() {
 
-        if ( config.enableThemeSwitcher == false ) {
+        if ( options.enableThemeSwitcher == false ) {
             return false;
         }
 
@@ -337,23 +340,22 @@ $(document).ready(function() {
             populateServerPanel(server);
         });
 
-        config.enableLoadChatButton = $('#editor-opt-load-chat-button').val();
-        config.ircChannel = $('#editor-opt-irc-channel').val();
+        options.enableLoadChatButton = $('#editor-opt-load-chat-button').val();
+        options.ircChannel = $('#editor-opt-irc-channel').val();
 
     }
 
     function exportConfig() {
 
         var zip = new JSZip();
-        zip.file("config/site.js", JSON.stringify(config, null, 4));
-        zip.file("config/manifest.js", JSON.stringify(manifest, null, 4));
+        zip.file("config/options.json", JSON.stringify(options, null, 4));
+        zip.file("config/manifest.json", JSON.stringify(manifest, null, 4));
 
         var content = zip.generate({type:"blob"});
 
         // see FileSaver.js
         saveAs(content, "config.zip");
 
-        console.log(config);
     }
 
     function enableEditor() {
@@ -368,9 +370,9 @@ $(document).ready(function() {
         });
 
         // Global
-        $('#editor-opt-load-chat-button').prop('checked', config.enableLoadChatButton);
-        $('#editor-opt-irc-channel').val(config.ircChannel);
-        $('#editor-opt-theme-switcher').prop('checked', config.enableThemeSwitcher);
+        $('#editor-opt-load-chat-button').prop('checked', options.enableLoadChatButton);
+        $('#editor-opt-irc-channel').val(options.ircChannel);
+        $('#editor-opt-theme-switcher').prop('checked', options.enableThemeSwitcher);
 
         $('#editor-opt-load-chat-button').click(function() {
             toggleLoadChatButton($(this));
@@ -413,7 +415,7 @@ $(document).ready(function() {
     }
 
     function initEditor() {
-        if (config.enableEditor == false) {
+        if (options.enableEditor == false) {
             $('#editor-opener').hide();
             new Konami(function() {
                 enableEditor();
@@ -439,12 +441,12 @@ $(document).ready(function() {
 
     function toggleLoadChatButton($el) {
         var enabled = $el.prop('checked');
-        config.enableLoadChatButton = enabled;
+        options.enableLoadChatButton = enabled;
     }
 
     function toggleThemeSwitcher($el) {
         var enabled = $el.prop('checked');
-        config.enableThemeSwitcher = enabled;
+        options.enableThemeSwitcher = enabled;
         var $ts = $('#theme-switcher-wrapper');
         if (enabled) {
             $ts.show();
@@ -516,7 +518,34 @@ $(document).ready(function() {
 
     }
 
-    populatePages();
+    function init() {
+
+        $.when(
+
+            $.ajax({
+                url: "./config/options.json",
+                dataType: "text"
+            }),
+
+            $.ajax({
+                url: "./config/manifest.json",
+                dataType: "text"
+            })
+
+        ).then(function(a, b) {
+
+            options = $.parseJSON(a[0]);
+            manifest = $.parseJSON(b[0]);
+
+            setupTheme();
+
+            populatePages();
+
+        });
+
+    }
+
+    init();
 
 } );
 

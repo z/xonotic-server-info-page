@@ -59,7 +59,7 @@ div.dt-buttons {
 #editor-opener {
     float:left;
 }
-#editor-close {
+#editor-close, .fa-close {
     cursor: pointer;
 }
 #editor-options {
