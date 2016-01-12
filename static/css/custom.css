@@ -53,9 +53,6 @@ div.dt-buttons {
 #editor-panel > .panel-heading {
     border-radius: 0;
 }
-#editor-panel h4 {
-    margin-top: 0;
-}
 #editor-panel .buttons {
     margin-top:15px;
 }
@@ -69,11 +66,11 @@ div.dt-buttons {
     overflow: none;
     height: 95%;
 }
-.server-config-options label, #global-config-options {
+.config-options label {
     margin-top:10px;
     display: block;
 }
-.server-config-options .panel-body {
+.config-options .panel-body {
     padding-top:0;
 }
 .icon {
