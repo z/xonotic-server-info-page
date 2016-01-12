@@ -2,11 +2,11 @@ $(document).ready(function() {
 
     var devMode = $.cookie('dev') ? true : false;
 
-    var playerListTable = false;
+    var playerListTable = {};
     var mapListTable = false;
 
     function initPlayerListTable(server) {
-        playerListTable = $('#server-' + server.id + '-playerlist').DataTable({
+        playerListTable[server.id] = $('#server-' + server.id + '-playerlist').DataTable({
             dataSrc: '',
             language: {
                       emptyTable: "No Players Currently On The Server"
@@ -129,7 +129,7 @@ $(document).ready(function() {
                 $(id + ' .server-maxplayers').text(qs.maxplayers);
                 $(id + ' .server-gametype').text("gametype: " + qs.gametype);
 
-                playerListTable.clear().draw();
+                playerListTable[server.id].clear().draw();
 
                 if ( qs.players && qs.players != "" ) {
 
@@ -139,7 +139,7 @@ $(document).ready(function() {
                         }
                     });
 
-                    playerListTable.rows.add(qs.players.player).draw();
+                    playerListTable[server.id].rows.add(qs.players.player).draw();
 
                 }
  
@@ -185,17 +185,20 @@ $(document).ready(function() {
     }
 
     function initTimer() {
-        var timer = $.timer(function() {
-            populateServerPanel(manifest.servers[0]);
-        });
-        timer.set({ time : 30000, autostart : true });
+        $.each(manifest.servers, function(index, server) {
+            var id = server.id;
+            var timer = $.timer(function() {
+                populateServerPanel(server);
+            });
+            timer.set({ time : 30000, autostart : true });
 
-        $('#timer-toggle').click(function() {
-            if ( $(this).prop('checked') ) {
-                timer.play();
-            } else {
-                timer.pause();
-            }
+            $(id + '.timer-toggle').click(function() {
+                if ( $(this).prop('checked') ) {
+                    timer.play();
+                } else {
+                    timer.pause();
+                }
+            });
         });
     }
 
