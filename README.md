@@ -34,9 +34,6 @@ var config = {
     // the remote address where a qstat xml can be returned
     qstatAddress: 'http://dpmaster.deathmask.net/?&xml=1&showplayers=1',
 
-    // used for development or for serving from a local dir
-    qstatLocalXML: 'resources/data/qstat.xml',
-
     // local or remote for bspname.jpg
     mapshotDir: 'http://xonotic.co/resources/mapshots/maps/',
     
@@ -57,7 +54,13 @@ var config = {
 
     // debug options in developer mode
     editorOptions: {
-        useLocalXML: false
+
+        // used for development / debugging
+        useLocalXML: false,
+
+        // where is it located?
+        qstatLocalXML: 'resources/data/qstat.xml'
+
     }
 
 };

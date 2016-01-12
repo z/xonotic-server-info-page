@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    var devMode = $.cookie('dev') ? true : false;
-
     var playerListTable = {};
     var mapListTable = false;
 
@@ -9,7 +7,7 @@ $(document).ready(function() {
         playerListTable[server.id] = $('#server-' + server.id + '-playerlist').DataTable({
             dataSrc: '',
             language: {
-                      emptyTable: "No Players Currently On The Server"
+                emptyTable: "No Players Currently On The Server"
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -87,8 +85,8 @@ $(document).ready(function() {
         var x2js = new X2JS();
 
         // for development, it's faster to query local xml
-        if (devMode && config.editorOptions.useLocalXML) {
-            var qstatXML = config.qstatLocalXML;
+        if (config.editorOptions && config.editorOptions.useLocalXML) {
+            var qstatXML = config.editorOptions.qstatLocalXML;
         } else {
             buildStatURL(server);
 
@@ -334,16 +332,13 @@ $(document).ready(function() {
     }
 
     function initEditor() {
-        if (devMode == false) {
+        if (config.enableEditor == false) {
+            $('#editor-opener').hide();
             new Konami(function() {
                 enableEditor();
             });
-        }
-
-        if (config.enableEditor) {
-            enableEditor();
         } else {
-            $('#editor-opener').hide();
+            enableEditor();
         }
     }
 
@@ -354,12 +349,10 @@ $(document).ready(function() {
         var $console = $('#editor-panel');
         if ($console.hasClass("visible")) {
             $console.removeClass('visible').animate({'margin-right':'-300px'});
-            devMode = false;
             removeDevCookie();
             populateServerPanel(server);
         } else {
             $console.addClass('visible').animate({'margin-right':'0px'});
-            devMode = true;
             setDevCookie();
             populateServerPanel(server);
         } 
