@@ -129,9 +129,9 @@
 
                 <script id="server-editor-template" type="text/x-handlebars-template">
                 {{#each servers}}
-                    <div id="server-{{id}}" class="panel panel-default server-config-options">
+                    <div id="server-options-{{id}}" class="panel panel-default server-config-options">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Server: {{id}}</h4>
+                            <h4 class="panel-title">Server: {{id}} <span class="pull-right"><i class="server-delete fa fa-close"></i></span></h4>
                         </div>
                         <div class="panel-body">
                             <div class="row">

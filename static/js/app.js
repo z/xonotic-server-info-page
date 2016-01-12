@@ -325,7 +325,7 @@ $(document).ready(function() {
 
     function applyConfig() {
         $.each(manifest.servers, function(index, server) {
-            var id = '#server-' + server.id;
+            var id = '#server-options-' + server.id;
             manifest.servers[index].id = $(id + ' .editor-opt-server-id').val();
             manifest.servers[index].address = $(id + ' .editor-opt-server-address').val();
             manifest.servers[index].port = $(id + ' .editor-opt-server-port').val();
@@ -360,7 +360,7 @@ $(document).ready(function() {
 
         // Per server
         $.each(manifest.servers, function(index, server) {
-            var id = '#server-' + server.id;
+            var id = '#server-options-' + server.id;
             $(id + ' .editor-opt-server-id').val(server.id);
             $(id + ' .editor-opt-server-address').val(server.address);
             $(id + ' .editor-opt-server-port').val(server.port);
@@ -396,6 +396,20 @@ $(document).ready(function() {
             toggleEditor(); 
         });
 
+        $('#editor-options .server-delete').click(function() {
+
+            var $serverPanel = $(this).closest('.panel');
+            var id = $serverPanel.attr('id').split('server-options-')[1];
+            console.log(id);
+
+            $serverPanel.remove();
+            $('#server-' + id).remove();
+
+            manifest.servers = manifest.servers.filter(function(obj) {
+                return obj.id != id;
+            });
+
+        });
     }
 
     function initEditor() {
