@@ -71,10 +71,10 @@ div.dt-buttons {
     overflow: none;
     height: 95%;
 }
-#config-options h4 {
+.server-config-options, #global-config-options h4 {
     margin:20px 0 0;
 }
-#config-options label {
+.server-config-options label, #global-config-options {
     margin-top:10px;
     display: block;
 }

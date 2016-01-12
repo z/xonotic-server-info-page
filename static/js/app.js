@@ -150,6 +150,18 @@ $(document).ready(function() {
 
     }
 
+    function populateAllServers() {
+        $.each(manifest.servers, function(index, server) {
+            populateServerPanel(server);
+        });
+    }
+    
+    function initRefreshServers() {
+        $('#refresh-servers').click(function() {
+            populateAllServers();
+        });
+    }
+
     function populateBlog() {
 
         $.each(manifest.posts, function(index, post) {
@@ -271,22 +283,29 @@ $(document).ready(function() {
     }
 
     function applyConfig() {
-        manifest.servers[0].address = $('#editor-opt-server-address').val();
-        manifest.servers[0].port = $('#editor-opt-server-port').val();
-        manifest.servers[0].game = $('#editor-opt-server-game').val();
+        $.each(manifest.servers, function(index, server) {
+            var id = '#server-' + server.id;
+            manifest.servers[index].id = $(id + ' .editor-opt-server-id').val();
+            manifest.servers[index].address = $(id + ' .editor-opt-server-address').val();
+            manifest.servers[index].port = $(id + ' .editor-opt-server-port').val();
+            manifest.servers[index].game = $(id + ' .editor-opt-server-game').val();
+
+            // build the remote qstat URL and adds it to the config
+            buildStatURL(server);
+
+            populateServerPanel(server);
+        });
+
         config.enableLoadChatButton = $('#editor-opt-load-chat-button').val();
         config.ircChannel = $('#editor-opt-irc-channel').val();
 
-        // build the remote qstat URL and adds it to the config
-        buildStatURL(manifest.servers[0]);
-
-        populateServerPanel(manifest.servers[0]);
     }
 
     function exportConfig() {
 
         var zip = new JSZip();
         zip.file("config/site.js", JSON.stringify(config, null, 4));
+        zip.file("config/manifest.js", JSON.stringify(manifest, null, 4));
 
         var content = zip.generate({type:"blob"});
 
@@ -298,9 +317,16 @@ $(document).ready(function() {
 
     function enableEditor() {
 
-        $('#editor-opt-server-address').val(manifest.servers[0].address);
-        $('#editor-opt-server-port').val(manifest.servers[0].port);
-        $('#editor-opt-server-game').val(manifest.servers[0].game);
+        // Per server
+        $.each(manifest.servers, function(index, server) {
+            var id = '#server-' + server.id;
+            $(id + ' .editor-opt-server-id').val(server.id);
+            $(id + ' .editor-opt-server-address').val(server.address);
+            $(id + ' .editor-opt-server-port').val(server.port);
+            $(id + ' .editor-opt-server-game').val(server.game);
+        });
+
+        // Global
         $('#editor-opt-load-chat-button').prop('checked', config.enableLoadChatButton);
         $('#editor-opt-irc-channel').val(config.ircChannel);
         $('#editor-opt-theme-switcher').prop('checked', config.enableThemeSwitcher);
@@ -344,18 +370,15 @@ $(document).ready(function() {
 
     function toggleEditor() {
 
-        server = manifest.servers[0]; // only supporting one right now
-
         var $console = $('#editor-panel');
         if ($console.hasClass("visible")) {
             $console.removeClass('visible').animate({'margin-right':'-300px'});
             removeDevCookie();
-            populateServerPanel(server);
         } else {
             $console.addClass('visible').animate({'margin-right':'0px'});
             setDevCookie();
-            populateServerPanel(server);
         } 
+
         return false; 
     }
 
@@ -390,24 +413,35 @@ $(document).ready(function() {
         });
     }
 
-    Handlebars.registerHelper('each', function(context, options) {
-      var ret = "";
-      for(var i=0, j=context.length; i<j; i++) {
-        ret = ret + options.fn(context[i]);
-      }
-      return ret;
-    });
+    function setupTemplates() {
+        Handlebars.registerHelper('each', function(context, options) {
+          var ret = "";
+          for(var i=0, j=context.length; i<j; i++) {
+            ret = ret + options.fn(context[i]);
+          }
+          return ret;
+        });
 
-    var serverTemplateSource = $("#server-template").html();
-    var serverTemplate = Handlebars.compile(serverTemplateSource);
+        // Server Page
+        var serverTemplateSource = $("#server-template").html();
+        var serverTemplate = Handlebars.compile(serverTemplateSource);
 
-    $("#serverlist").append(serverTemplate(manifest));
+        $("#serverlist").append(serverTemplate(manifest));
 
-    $.each(manifest.servers, function(index, server) {
-        initPlayerListTable(server);
+        // Editor Panel
+        var serverEditorTemplateSource = $("#server-editor-template").html();
+        var serverEditorTemplate = Handlebars.compile(serverEditorTemplateSource);
 
-        populateServerPanel(server);
-    });
+        $("#editor-options").prepend(serverEditorTemplate(manifest));
+
+        $.each(manifest.servers, function(index, server) {
+            initPlayerListTable(server);
+
+            populateServerPanel(server);
+        });
+    }
+
+    setupTemplates();
 
     initMapListTable();
 
@@ -422,6 +456,8 @@ $(document).ready(function() {
     themeSwitcher();
 
     initEditor();
+
+    initRefreshServers();
 
 } );
 
