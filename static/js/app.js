@@ -5,8 +5,8 @@ $(document).ready(function() {
     var playerListTable = false;
     var mapListTable = false;
 
-    function initPlayerListTable() {
-        playerListTable = $('#server-playerlist').DataTable({
+    function initPlayerListTable(server) {
+        playerListTable = $('#server-' + server.id + '-playerlist').DataTable({
             dataSrc: '',
             language: {
                       emptyTable: "No Players Currently On The Server"
@@ -46,8 +46,6 @@ $(document).ready(function() {
             });
         });
 
-        console.log(mapListData);
-
         mapListTable = $('#server-maplist').DataTable({
             data: mapListData,
             dataSrc: '',
@@ -73,18 +71,18 @@ $(document).ready(function() {
         });
     }
 
-    function buildStatURL() {
+    function buildStatURL(server) {
         // build the remote qstat URL and adds it to the config
         config.qstatXML = config.qstatAddress +
-                            '&game=' + manifest.servers[0].game +
-                            '&server=' + manifest.servers[0].address +
-                            ':' + manifest.servers[0].port;
+                            '&game=' + server.game +
+                            '&server=' + server.address +
+                            ':' + server.port;
     }
 
     // get qStat xml from dpmaster and create a JSON object
-    function populateServerPanel() {
+    function populateServerPanel(server) {
 
-        $('#server-refreshing').show();
+        $('#server-' + server.id + ' .server-refreshing').show();
         
         var x2js = new X2JS();
 
@@ -92,7 +90,8 @@ $(document).ready(function() {
         if (devMode && config.editorOptions.useLocalXML) {
             var qstatXML = config.qstatLocalXML;
         } else {
-            buildStatURL();
+            buildStatURL(server);
+
             var qstatXML = config.qstatXML;
         }
 
@@ -101,18 +100,20 @@ $(document).ready(function() {
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
 
-            $("#server-down").hide();
+            var id = '#server-' + server.id;
 
-            $('#map-pic').attr('src', './resources/images/no_map_pic.png')
-            $('#server-name').html(qs.name);
-            $('#server-map').text("map title: ");
-            $('#server-numplayers').text("");
-            $('#server-maxplayers').text("");
-            $('#server-gametype').text("gametype: ");
+            $(id + ' .server-down').hide();
+
+            $(id + ' .map-pic').attr('src', './resources/images/no_map_pic.png')
+            $(id + ' .server-name').html(qs.name);
+            $(id + ' .server-map').text("map title: ");
+            $(id + ' .server-numplayers').text("");
+            $(id + ' .server-maxplayers').text("");
+            $(id + ' .server-gametype').text("gametype: ");
             
             if (qs._status == "UP") {
 
-                $('#map-pic').attr('src', config.mapshotDir + qs.map + config.mapshotExtension);
+                $(id + ' .map-pic').attr('src', config.mapshotDir + qs.map + config.mapshotExtension);
 
                 // Gametype is only avaiable in qs rules status for many games
                 qs.gametype = "";
@@ -122,11 +123,11 @@ $(document).ready(function() {
                     qs.gametype = gametype;
                 }
 
-                $('#server-name').html(qs.name);
-                $('#server-map').text("map title: " + qs.map);
-                $('#server-numplayers').text(qs.numplayers);
-                $('#server-maxplayers').text(qs.maxplayers);
-                $('#server-gametype').text("gametype: " + qs.gametype);
+                $(id + ' .server-name').html(qs.name);
+                $(id + ' .server-map').text("map title: " + qs.map);
+                $(id + ' .server-numplayers').text(qs.numplayers);
+                $(id + ' .server-maxplayers').text(qs.maxplayers);
+                $(id + ' .server-gametype').text("gametype: " + qs.gametype);
 
                 playerListTable.clear().draw();
 
@@ -143,10 +144,10 @@ $(document).ready(function() {
                 }
  
             } else {
-                $("#server-down").fadeIn();
+                $(id + " .server-down").fadeIn();
             }
              
-            $('#server-refreshing').fadeOut();
+            $(id + ' .server-refreshing').fadeOut();
         });
 
     }
@@ -185,7 +186,7 @@ $(document).ready(function() {
 
     function initTimer() {
         var timer = $.timer(function() {
-            populateServerPanel();
+            populateServerPanel(manifest.servers[0]);
         });
         timer.set({ time : 30000, autostart : true });
 
@@ -276,9 +277,9 @@ $(document).ready(function() {
         config.ircChannel = $('#editor-opt-irc-channel').val();
 
         // build the remote qstat URL and adds it to the config
-        buildStatURL();
+        buildStatURL(manifest.servers[0]);
 
-        populateServerPanel();
+        populateServerPanel(manifest.servers[0]);
     }
 
     function exportConfig() {
@@ -344,17 +345,20 @@ $(document).ready(function() {
     }
 
     function toggleEditor() {
+
+        server = manifest.servers[0]; // only supporting one right now
+
         var $console = $('#editor-panel');
         if ($console.hasClass("visible")) {
             $console.removeClass('visible').animate({'margin-right':'-300px'});
             devMode = false;
             removeDevCookie();
-            populateServerPanel();
+            populateServerPanel(server);
         } else {
             $console.addClass('visible').animate({'margin-right':'0px'});
             devMode = true;
             setDevCookie();
-            populateServerPanel();
+            populateServerPanel(server);
         } 
         return false; 
     }
@@ -390,9 +394,24 @@ $(document).ready(function() {
         });
     }
 
-    initPlayerListTable();
+    Handlebars.registerHelper('each', function(context, options) {
+      var ret = "";
+      for(var i=0, j=context.length; i<j; i++) {
+        ret = ret + options.fn(context[i]);
+      }
+      return ret;
+    });
 
-    populateServerPanel();
+    var serverTemplateSource = $("#server-template").html();
+    var serverTemplate = Handlebars.compile(serverTemplateSource);
+
+    $("#serverlist").append(serverTemplate(manifest));
+
+    $.each(manifest.servers, function(index, server) {
+        initPlayerListTable(server);
+
+        populateServerPanel(server);
+    });
 
     initMapListTable();
 
