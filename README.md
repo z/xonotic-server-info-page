@@ -104,6 +104,42 @@ var manifest = {
         }
     ],
 
+    // id should be alphanumeric only, no duplicates
+    // content refers to the .md file in resources/data/pages
+    // icon is a font awesome icon
+    pages: [
+        {
+            id: 'servers',
+            title: 'Servers',
+            content: 'servers',
+            icon: 'list'
+        },
+        {
+            id: 'about',
+            title: 'About',
+            content: 'about',
+            icon: 'info-circle'
+        },
+        {
+            id: 'maplist',
+            title: 'Maplist',
+            content: 'maplist',
+            icon: 'map-o'
+        },
+        {
+            id: 'chat',
+            title: 'Chat',
+            content: 'chat',
+            icon: 'comment'
+        },
+        {
+            id: 'news',
+            title: 'News',
+            content: 'news',
+            icon: 'newspaper-o'
+        }
+    ],
+
     // list the posts you'd like to show here
     // latest first
     posts: [
