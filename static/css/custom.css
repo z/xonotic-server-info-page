@@ -47,16 +47,14 @@ div.dt-buttons {
     height:100%;
     margin-right:-300px;
     z-index:10000;
-    box-shadow: 8px 3px 10px 4px #222
+    box-shadow: 8px 3px 10px 4px #222;
+    overflow-y: auto;
 }
 #editor-panel > .panel-heading {
     border-radius: 0;
 }
 #editor-panel h4 {
     margin-top: 0;
-}
-#editor-panel > .panel-body {
-    padding-top:0;
 }
 #editor-panel .buttons {
     margin-top:15px;
@@ -71,14 +69,13 @@ div.dt-buttons {
     overflow: none;
     height: 95%;
 }
-.server-config-options, #global-config-options h4 {
-    margin:20px 0 0;
-}
 .server-config-options label, #global-config-options {
     margin-top:10px;
     display: block;
 }
-
+.server-config-options .panel-body {
+    padding-top:0;
+}
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
 }

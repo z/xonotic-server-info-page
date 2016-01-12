@@ -126,51 +126,69 @@
         </div>
         <div class="panel-body">
             <div id="editor-options">
+
                 <script id="server-editor-template" type="text/x-handlebars-template">
                 {{#each servers}}
-                <div id="server-{{id}}" class="server-config-options">
-                    <h4>Server: {{id}}</h4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>id (alpha-numeric)</label> <input type="text" class="editor-opt-server-id form-control input-sm" placeholder="myserver" />
+                    <div id="server-{{id}}" class="panel panel-default server-config-options">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Server: {{id}}</h4>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <label>Address</label> <input type="text" class="editor-opt-server-address form-control input-sm" placeholder="Server Address" />
-                        </div>
-                        <div class="col-xs-4">
-                            <label>Port</label> <input type="text" class="editor-opt-server-port form-control input-sm"  placeholder="Server Port" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Game</label>
-                            <select class="editor-opt-server-game form-control input-sm">
-                                <option>xonotic</option>
-                                <option>warsow</option>
-                                <option>nexuiz</option>
-                                <option>openarena</option>
-                                <option>urbanterror</option>
-                                <option>tremulous</option>
-                                <option>steelstorm</option>
-                                <option>wolfet</option>
-                                <option>transfusion</option>
-                                <option>quake</option>
-                            </select>
-                        </div><!-- .col -->
-                    </div><!-- .row -->
-                </div><!-- .server-config-options -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>id (alpha-numeric)</label> <input type="text" class="editor-opt-server-id form-control input-sm" placeholder="myserver" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <label>Address</label> <input type="text" class="editor-opt-server-address form-control input-sm" placeholder="Server Address" />
+                                </div>
+                                <div class="col-xs-4">
+                                    <label>Port</label> <input type="text" class="editor-opt-server-port form-control input-sm"  placeholder="Server Port" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Game</label>
+                                    <select class="editor-opt-server-game form-control input-sm">
+                                        <option>xonotic</option>
+                                        <option>warsow</option>
+                                        <option>nexuiz</option>
+                                        <option>openarena</option>
+                                        <option>urbanterror</option>
+                                        <option>tremulous</option>
+                                        <option>steelstorm</option>
+                                        <option>wolfet</option>
+                                        <option>transfusion</option>
+                                        <option>quake</option>
+                                    </select>
+                                </div><!-- .col -->
+                            </div><!-- .row -->
+                        </div><!-- panel-body -->
+                    </div><!-- .server-config-options -->
                 {{/each}}
                 </script>
+
                 <div id="global-config-options">
                     <div class="row">
                         <div class="col-xs-12">
-                            <h4>Chat</h4>
-                            <label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
-                            <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
-                            <h4>Global</h4>
-                            <label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Chat</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
+                                    <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Global</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <label><input type="checkbox" id="editor-opt-theme-switcher" /> Enable Theme Switcher</label>
+                                </div>
+                            </div>
                             <div class="buttons">
                                 <button id="editor-apply-config" class="btn btn-primary"><i class="fa fa-check-circle"></i> Apply</button>
                                 <button id="editor-export-config" class="btn btn-primary"><i class="fa fa-download"></i> Download</button>
