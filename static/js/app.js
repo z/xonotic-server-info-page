@@ -3,6 +3,47 @@ $(document).ready(function() {
     var playerListTable = {};
     var mapListTable = false;
 
+    function populatePages() {
+
+        var promises = [];
+
+        $.each(manifest.pages, function(index, page) {
+
+            var def = new $.Deferred();
+
+            var activeClass = (index == 0) ? ' class="active"' : '';
+
+            // Add to navigation
+            $('#main-navbar').append(
+                '<li' + activeClass + '>' +
+                    '<a href="#' + page.id + '" title="' + page.title + '" data-toggle="tab"><i class="fa fa-' + page.icon + '"></i> ' + page.title + '</a>' +
+                '</li>'
+            );
+
+            var active = (index == 0) ? ' active' : '';
+
+            // Get page content
+            $.get('./resources/data/pages/' + page.content + '.md', function(data) {
+                $('#main-content .tab-content').append(
+                    '<div class="tab-pane' + active + '" id="' + page.id + '">' +
+                        marked(data) +
+                    '</div>'
+                );
+                def.resolve();
+            });
+
+            promises.push(def);
+
+        });
+
+        // Apply templates and handle tabs
+        $.when.apply(undefined, promises).then(function() {
+            setupTemplates();
+            handleTabs();
+            initWidgets();
+        });
+    }
+
     function initPlayerListTable(server) {
         playerListTable[server.id] = $('#server-' + server.id + '-playerlist').DataTable({
             dataSrc: '',
@@ -240,8 +281,8 @@ $(document).ready(function() {
         setTheme(config.theme);
     }
 
-    // themeSwitcher Widget
-    function themeSwitcher() {
+    // initThemeSwitcher Widget
+    function initThemeSwitcher() {
 
         if ( config.enableThemeSwitcher == false ) {
             return false;
@@ -414,6 +455,7 @@ $(document).ready(function() {
     }
 
     function setupTemplates() {
+
         Handlebars.registerHelper('each', function(context, options) {
           var ret = "";
           for(var i=0, j=context.length; i<j; i++) {
@@ -441,23 +483,26 @@ $(document).ready(function() {
         });
     }
 
-    setupTemplates();
+    // Called when populatePages() completes
+    function initWidgets() {
 
-    initMapListTable();
+        populateBlog();
 
-    initTimer();
+        initMapListTable();
 
-    initChat();
+        initTimer();
 
-    populateBlog();
+        initChat();
 
-    handleTabs();
+        initThemeSwitcher();
 
-    themeSwitcher();
+        initEditor();
 
-    initEditor();
+        initRefreshServers();
 
-    initRefreshServers();
+    }
+
+    populatePages();
 
 } );
 

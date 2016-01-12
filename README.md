@@ -15,6 +15,7 @@ A boilerplate for setting up an informational page for your Xonotic game server.
 1. Fork this repository
 2. Edit `config/site.js` with your server information (this can be generated with the GUI and exported as a zip)
 3. Edit `config/manifest.js` to define your map list and link to blog posts
+4. To edit pages, edit the existing files in `resources/data/pages`
 4. To write blog posts, add markdown files to `resources/data/blog`, be sure to include them explicitly in `config/manifest.js`
 
 #### Tips
