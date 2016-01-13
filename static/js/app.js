@@ -123,7 +123,9 @@ $(document).ready(function() {
     // get qStat xml from dpmaster and create a JSON object
     function populateServerPanel(server) {
 
-        $('#server-' + server.id + ' .server-refreshing').show();
+        var id = '#server-' + server.id;
+
+        $(id + ' .server-refreshing').show();
         
         var x2js = new X2JS();
 
@@ -141,54 +143,65 @@ $(document).ready(function() {
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
 
-            var id = '#server-' + server.id;
-
             $(id + ' .server-down').hide();
 
             $(id + ' .map-pic').attr('src', './resources/images/no_map_pic.png')
             $(id + ' .server-name').html(qs.name);
-            $(id + ' .server-map').text("map title: ");
+            $(id + ' .server-map').text("");
             $(id + ' .server-numplayers').text("");
             $(id + ' .server-maxplayers').text("");
-            $(id + ' .server-gametype').text("gametype: ");
-            
-            if (qs._status == "UP") {
+            $(id + ' .server-gametype').text("waiting...");
+           
+            switch (qs._status) {
+                case "TIMEOUT":
 
-                $(id + ' .map-pic').attr('src', options.mapshotDir + qs.map + options.mapshotExtension);
+                    $(id + " .server-timeout").fadeIn();
+                    break;
 
-                // Gametype is only avaiable in qs rules status for many games
-                qs.gametype = "";
-                if (qs.rules && qs.rules.rule && qs.rules.rule.length > 5) {
-                    var statusLine = qs.rules.rule[5]['__text'];
-                    var gametype = statusLine.split(':')[0];
-                    qs.gametype = gametype;
-                }
+                case "DOWN":
 
-                $(id + ' .server-name').html(qs.name);
-                $(id + ' .server-map').text("map title: " + qs.map);
-                $(id + ' .server-numplayers').text(qs.numplayers);
-                $(id + ' .server-maxplayers').text(qs.maxplayers);
-                $(id + ' .server-gametype').text("gametype: " + qs.gametype);
+                    $(id + " .server-down").fadeIn();
 
-                playerListTable[server.id].clear().draw();
+                    playerListTable[server.id].clear().draw();
 
-                if ( qs.players && qs.players != "" ) {
+                case "UP":
 
-                    $.each(qs.players.player, function(index, player) {
-                        if ( qs.players.player[index].hasOwnProperty('team') != true ) {
-                            qs.players.player[index].team = -1;
-                        }
-                    });
+                    $(id + ' .map-pic').attr('src', options.mapshotDir + qs.map + options.mapshotExtension);
 
-                    playerListTable[server.id].rows.add(qs.players.player).draw();
+                    // Gametype is only avaiable in qs rules status for many games
+                    qs.gametype = "";
+                    if (qs.rules && qs.rules.rule && qs.rules.rule.length > 5) {
+                        var statusLine = qs.rules.rule[5]['__text'];
+                        var gametype = statusLine.split(':')[0];
+                        qs.gametype = gametype;
+                    }
 
-                }
- 
-            } else {
-                $(id + " .server-down").fadeIn();
+                    $(id + ' .server-name').html(qs.name);
+                    $(id + ' .server-map').text("" + qs.map);
+                    $(id + ' .server-numplayers').text(qs.numplayers);
+                    $(id + ' .server-maxplayers').text(qs.maxplayers);
+                    $(id + ' .server-gametype').text(qs.gametype);
+
+                    playerListTable[server.id].clear().draw();
+
+                    if ( qs.players ) {
+                        $.each(qs.players.player, function(index, player) {
+                            if ( qs.players.player[index].hasOwnProperty('team') != true ) {
+                                qs.players.player[index].team = -1;
+                            }
+                        });
+
+                        playerListTable[server.id].rows.add(qs.players.player).draw();
+
+                    }
+
+                    break;
+
+                default:
             }
              
             $(id + ' .server-refreshing').fadeOut();
+
         });
 
     }
@@ -398,16 +411,18 @@ $(document).ready(function() {
             toggleEditor(); 
         });
 
-        $('#editor-options .server-delete').click(function() {
+        $('.server-delete').click(function() {
 
-            var $serverPanel = $(this).closest('.panel');
-            var id = $serverPanel.attr('id').split('server-options-')[1];
+            var id = $(this).attr('data-server-id');
 
-            $serverPanel.remove();
+            $("#server-options-" + id).remove();
+
             var $serverCol = $('#server-' + id).parent();
+
             $serverCol.siblings('.col-lg-6')
                         .removeClass('col-lg-6')
                         .addClass('col-lg-12');
+
             $serverCol.remove();
 
             manifest.servers = manifest.servers.filter(function(obj) {

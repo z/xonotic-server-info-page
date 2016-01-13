@@ -87,11 +87,21 @@
             <!-- Current Server Stats -->
             <div class="panel panel-default" id="server-{{id}}">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><span class="server-name">Server Name</span></h3>
+                    <h3 class="panel-title">
+                        <span class="server-name">Server Name</span>
+                        <div class="dropdown pull-right">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i></a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
+                                <li><a href="#" class="server-delete" data-server-id="{{id}}"><i class="fa fa-trash"></i> Remove</a></li>
+                            </ul>
+                        </div>
+                    </h3>
                 </div>
                 <div class="panel-body">
 
-                    <div class="alert alert-danger alert-dismissible" role="alert" class="server-down" style="display:none;">
+                    <div class="server-down alert alert-danger alert-dismissible" role="alert" style="display:none;">
                         <h4>No Stats Received</h4>
                         <p>The master server is reporting the configured game server address is DOWN.</p>
                     </div>
@@ -103,9 +113,8 @@
                                 <div class="thumbnail">
                                     <img src="./resources/images/no_map_pic.png" title="no map pic" class="map-pic" />
                                 </div>
-                                <h4 class="server-map">map title: </h4>               
-                                <p>players: <span class="server-numplayers">0</span> / <span class="server-maxplayers">0</span></p>
-                                <p class="server-gametype">gametype: </p>
+                                <h4 class="server-map"></h4>
+                                <p><span class="server-numplayers">0</span> / <span class="server-maxplayers">0</span> players [ <span class="server-gametype">waiting...</span> ]
                             </div>
                             <div class="col-xs-9">
 
@@ -155,7 +164,7 @@
                 {{#each servers}}
                     <div id="server-options-{{id}}" class="panel panel-default server-config-options">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Server: {{id}} <span class="pull-right"><i class="server-delete fa fa-close"></i></span></h4>
+                            <h4 class="panel-title">Server: {{id}} <span class="pull-right"><i class="server-delete fa fa-close" data-server-id="{{id}}"></i></span></h4>
                         </div>
                         <div class="panel-body">
                             <div class="row">
