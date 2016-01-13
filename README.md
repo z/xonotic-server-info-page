@@ -35,7 +35,7 @@ HTML is allowed in markdown files, in fact, this site uses some you should consi
 
 The configuration is defined in two files, `options.json` and `config/manifest.json`. These can be created with the GUI editor, or written by hand.
 
-While these files below contain comments for reference, JSON does not support comments. Do not use comments in your *.json files or the site will not work.
+While these files below contain comments for reference, *JSON does not support comments*. **Do not use comments in your *.json files or the site will not work.**
 
 `config/options.json`:
 
@@ -76,7 +76,7 @@ This file defines site configuration options.
 
     }
 
-};
+}
 ```
 
 `config/manifest.json`:
@@ -183,7 +183,7 @@ This file contains information about servers, pages, posts and themes.
         "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
     }
 
-};
+}
 ```
 
 This software was developed using static files, you can serve them locally for development with `python -m simpleHTTPServer 8000` and visit `http://localhost:8000`.
