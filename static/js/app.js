@@ -402,10 +402,13 @@ $(document).ready(function() {
 
             var $serverPanel = $(this).closest('.panel');
             var id = $serverPanel.attr('id').split('server-options-')[1];
-            console.log(id);
 
             $serverPanel.remove();
-            $('#server-' + id).remove();
+            var $serverCol = $('#server-' + id).parent();
+            $serverCol.siblings('.col-lg-6')
+                        .removeClass('col-lg-6')
+                        .addClass('col-lg-12');
+            $serverCol.remove();
 
             manifest.servers = manifest.servers.filter(function(obj) {
                 return obj.id != id;
