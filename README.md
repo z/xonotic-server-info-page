@@ -1,14 +1,17 @@
 # xonotic-server-info-page
-A boilerplate for setting up an informational page for your Xonotic game server.
+An easy to configure informational page for your Xonotic game server
 
 :link: [live demo](http://z.github.io/xonotic-server-info-page)
 
-##### Features
-* Live server information (queries the master server list using ajax) or optionally read a local qstat XML file
-* IRC widget to allow users to chat with your IRC channel from the page
-* Maplist you can configure
-* News page (blog) that reads markdown files
-* About page
+#### Features
+* Live server information (polls the master server every 30 seconds)
+* Multi-server support
+* Configurable Maplist
+* IRC widget
+* News page (blog)
+* Themes
+* Custom Pages
+* Content written in Markdown
 
 #### Quick Start
 
