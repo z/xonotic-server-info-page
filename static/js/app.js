@@ -63,6 +63,12 @@ $(document).ready(function() {
             ],
             columnDefs: [
                 {
+                    targets: 0,
+                    render: function ( data, type, full, meta) {
+                        return decodeURIComponent(escape(data));
+                    }
+                },
+                {
                     // handle missing team
                     targets: 3,
                     render: function ( data, type, full, meta ) {
@@ -433,6 +439,13 @@ $(document).ready(function() {
             });
 
         });
+
+
+        // List with handle
+        Sortable.create(pagesSort, {
+            animation: 150
+        });
+
     }
 
     function initEditor() {
@@ -546,11 +559,18 @@ $(document).ready(function() {
 
         $("#serverlist").append(serverTemplate(manifest));
 
+        // Page Editor
+        var editorTemplateSource = $("#edit-page-template").html();
+        var editorTemplate = Handlebars.compile(editorTemplateSource);
+
+        $("#global-config-options").prepend(editorTemplate(manifest));
+
         $.each(manifest.servers, function(index, server) {
             initPlayerListTable(server);
 
             populateServerPanel(server);
         });
+
     }
 
     // Called when populatePages() completes

@@ -71,7 +71,9 @@
     </section><!-- .content -->
 
     <div class="row">
+
         <script id="server-template" type="text/x-handlebars-template">
+
         {{#grouped_each 2 servers}}
 
         <div class="row">
@@ -154,10 +156,6 @@
 
                 </div><!-- .panel -->
 
-
-
-
-
                 <div class="modal fade" id="server-edit-{{id}}" tabindex="-1" role="dialog" aria-labelledby="Editing {{id}}">
                   <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -207,7 +205,6 @@
                   </div>
                 </div>
 
-
             </div><!-- .col -->
 
             {{/each}}
@@ -215,7 +212,9 @@
         </div><!-- .row -->
 
         {{/grouped_each}}
+
         </script>
+
     </div><!-- .row -->
 
     <div id="editor-panel" class="panel panel-info">
@@ -225,10 +224,35 @@
         <div class="panel-body">
             <div id="editor-options" class="config-options">
 
+                <div class="alert alert-warning" role="alert">Options found here are in progress and might not be 100% working yet.</div>
+
                 <div id="global-config-options">
 
                     <div class="row">
                         <div class="col-xs-12">
+
+                            <script id="edit-page-template" type="text/x-handlebars-template">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">Pages</h4>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div id="pagesSort" class="list-group">
+
+                                        {{#each pages}}
+                                        <div class="list-group-item">
+                                            <label><input type="checkbox" id="editor-opt-page-{{id}}-button" /> {{title}}</label>
+                                            <span class="pull-right"><i class="fa fa-pencil"></i> <i class="fa fa-trash"></i></span>
+                                        </div>
+                                        {{/each}}
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            </script>
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">Chat</h4>
@@ -272,6 +296,7 @@
     <script type="text/javascript" src="./static/vendor/jszip/jszip.min.js"></script>
     <script type="text/javascript" src="./static/vendor/jszip-utils/jszip-utils.min.js"></script>
     <script type="text/javascript" src="./static/vendor/FileSaver/FileSaver.min.js"></script>
+    <script type="text/javascript" src="./static/vendor/Sortable/Sortable.js"></script>
     <!-- main -->
     <script type="text/javascript" src="./static/js/app.js"></script>
 

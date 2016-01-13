@@ -70,13 +70,6 @@ div.dt-buttons {
     overflow: none;
     height: 95%;
 }
-.config-options label {
-    margin-top:10px;
-    display: block;
-}
-.config-options .panel-body {
-    padding-top:0;
-}
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
 }
