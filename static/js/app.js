@@ -120,10 +120,10 @@ $(document).ready(function() {
 
     function buildStatURL(server) {
         // build the remote qstat URL and adds it to the config
-        options.qstatXML = options.qstatAddress +
-                            '&game=' + server.game +
-                            '&server=' + server.address +
-                            ':' + server.port;
+        return options.qstatAddress +
+                    '&game=' + server.game +
+                    '&server=' + server.address +
+                    ':' + server.port;
     }
 
     // get qStat xml from dpmaster and create a JSON object
@@ -139,9 +139,7 @@ $(document).ready(function() {
         if (options.editorOptions && options.editorOptions.useLocalXML) {
             var qstatXML = options.editorOptions.qstatLocalXML;
         } else {
-            buildStatURL(server);
-
-            var qstatXML = options.qstatXML;
+            var qstatXML = buildStatURL(server);
         }
 
         $.get(qstatXML, function(xml) {
@@ -356,9 +354,6 @@ $(document).ready(function() {
             manifest.servers[index].port = $(id + ' .editor-opt-server-port').val();
             manifest.servers[index].game = $(id + ' .editor-opt-server-game').val();
 
-            // build the remote qstat URL and adds it to the config
-            buildStatURL(server);
-
             populateServerPanel(server);
         });
 
@@ -373,10 +368,35 @@ $(document).ready(function() {
         zip.file("config/options.json", JSON.stringify(options, null, 4));
         zip.file("config/manifest.json", JSON.stringify(manifest, null, 4));
 
-        var content = zip.generate({type:"blob"});
+        var resourcePath = "resources/data/";
+        var postPath = "blog/";
+        var pagePath = "pages/";
 
-        // see FileSaver.js
-        saveAs(content, "config.zip");
+        var def = [];
+
+        $.each(manifest.posts, function(index, post) {
+            var path = resourcePath + postPath;
+            var file = path + post + ".md";
+            def.push(deferredAddZip(file, file, zip));
+        });
+
+        $.each(manifest.pages, function(index, page) {
+            var path = resourcePath + pagePath;
+            var file = path + page.content + ".md";
+            def.push(deferredAddZip(file, file, zip));
+        });
+
+        // when everything has been downloaded, we can trigger the dl
+        $.when.apply($, def).done(function () {
+
+            var content = zip.generate({type:"blob"});
+
+            // see FileSaver.js
+            saveAs(content, "config.zip");
+
+        }).fail(function (err) {
+            console.log("oops zippy no worky");
+        });
 
     }
 
@@ -622,6 +642,27 @@ $(document).ready(function() {
     init();
 
 } );
+
+/**
+ * Fetch the content, add it to the JSZip object
+ * and use a jQuery deferred to hold the result.
+ * @param {String} url the url of the content to fetch.
+ * @param {String} filename the filename to use in the JSZip object.
+ * @param {JSZip} zip the JSZip instance.
+ * @return {jQuery.Deferred} the deferred containing the data.
+ */
+function deferredAddZip(url, filename, zip) {
+    var deferred = $.Deferred();
+    JSZipUtils.getBinaryContent(url, function (err, data) {
+        if(err) {
+            deferred.reject(err);
+        } else {
+            zip.file(filename, data, {binary:true});
+            deferred.resolve(data);
+        }
+    });
+    return deferred;
+}
 
 function setDevCookie() {
     $.cookie('dev', '1');
