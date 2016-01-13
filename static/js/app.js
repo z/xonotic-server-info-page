@@ -631,6 +631,10 @@ function removeDevCookie() {
     $.removeCookie('dev');
 }
 
+function imgError(image) {
+    $(image).attr('src','./resources/images/no_map_pic.png');
+}
+
 function bytesToSize(bytes) {
    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
    if (bytes == 0) return '0 Byte';
