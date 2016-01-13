@@ -25,12 +25,24 @@ You can host this on [github.io](https://pages.github.com/):
 
 You can use the github interface to write blog posts, and maintain the site.
 
+#### Modifying Content
+
+All content is written in markdown files that are parsed into HTML at runtime. You can add/edit/delete pages and posts this way. The site doesn't know about your markdown files (pages and posts) unless they are specified in the `config/manifest.json` file.
+
+HTML is allowed in markdown files, in fact, this site uses some you should consider "reserved". Currently the assumption is that all these pages except "about" exist (this will be more configurable in the future). Additional pages are possible.
+
 #### Advanced Configuration
 
-Example `config/site.js`:
+The configuration is defined in two files, `options.json` and `config/manifest.json`. These can be created with the GUI editor, or written by hand.
+
+While these files below contain comments for reference, JSON does not support comments. Do not use comments in your *.json files or the site will not work.
+
+`config/options.json`:
+
+This file defines site configuration options.
 
 ```js
-var config = {
+{
 
     // the remote address where a qstat xml can be returned
     qstatAddress: 'http://dpmaster.deathmask.net/?&xml=1&showplayers=1',
@@ -67,10 +79,12 @@ var config = {
 };
 ```
 
-Example `config/manifest.js`:
+`config/manifest.json`:
+
+This file contains information about servers, pages, posts and themes.
 
 ```js
-var manifest = {
+{
 
     // Game Server config
     servers: [
