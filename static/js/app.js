@@ -144,6 +144,7 @@ $(document).ready(function() {
             var qs = qstatJSON.qstat.server;
 
             $(id + ' .server-down').hide();
+            $(id + ' .server-timeout').hide();
 
             $(id + ' .map-pic').attr('src', './resources/images/no_map_pic.png')
             $(id + ' .server-name').html(qs.name);
@@ -181,6 +182,8 @@ $(document).ready(function() {
                     $(id + ' .server-numplayers').text(qs.numplayers);
                     $(id + ' .server-maxplayers').text(qs.maxplayers);
                     $(id + ' .server-gametype').text(qs.gametype);
+                    $(id + ' .server-address').text(qs.address);
+                    $(id + ' .server-port').text(qs.port);
 
                     playerListTable[server.id].clear().draw();
 
@@ -341,7 +344,7 @@ $(document).ready(function() {
 
     function applyConfig() {
         $.each(manifest.servers, function(index, server) {
-            var id = '#server-options-' + server.id;
+            var id = '#server-edit-' + server.id;
             manifest.servers[index].id = $(id + ' .editor-opt-server-id').val();
             manifest.servers[index].address = $(id + ' .editor-opt-server-address').val();
             manifest.servers[index].port = $(id + ' .editor-opt-server-port').val();
@@ -395,7 +398,7 @@ $(document).ready(function() {
             toggleThemeSwitcher($(this));
         });
 
-        $('#editor-apply-config').click(function() {
+        $('.apply-config').click(function() {
             applyConfig();
         });
 
@@ -542,12 +545,6 @@ $(document).ready(function() {
         var serverTemplate = Handlebars.compile(serverTemplateSource);
 
         $("#serverlist").append(serverTemplate(manifest));
-
-        // Editor Panel
-        var serverEditorTemplateSource = $("#server-editor-template").html();
-        var serverEditorTemplate = Handlebars.compile(serverEditorTemplateSource);
-
-        $("#editor-options").prepend(serverEditorTemplate(manifest));
 
         $.each(manifest.servers, function(index, server) {
             initPlayerListTable(server);
