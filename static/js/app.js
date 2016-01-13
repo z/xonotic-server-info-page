@@ -480,6 +480,45 @@ $(document).ready(function() {
           return ret;
         });
 
+        Handlebars.registerHelper('grouped_each', function(every, context, options) {
+            var out = "", subcontext = [], i;
+            if (context && context.length > 0) {
+                for (i = 0; i < context.length; i++) {
+                    if (i > 0 && i % every === 0) {
+                        out += options.fn(subcontext);
+                        subcontext = [];
+                    }
+                    subcontext.push(context[i]);
+                }
+                out += options.fn(subcontext);
+            }
+            return out;
+        });
+
+        Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+            switch (operator) {
+                case '==':
+                    return (v1 == v2) ? options.fn(this) : options.inverse(this);
+                case '===':
+                    return (v1 === v2) ? options.fn(this) : options.inverse(this);
+                case '<':
+                    return (v1 < v2) ? options.fn(this) : options.inverse(this);
+                case '<=':
+                    return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+                case '>':
+                    return (v1 > v2) ? options.fn(this) : options.inverse(this);
+                case '>=':
+                    return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                case '&&':
+                    return (v1 && v2) ? options.fn(this) : options.inverse(this);
+                case '||':
+                    return (v1 || v2) ? options.fn(this) : options.inverse(this);
+                default:
+                    return options.inverse(this);
+            }
+        });
+
         // Server Page
         var serverTemplateSource = $("#server-template").html();
         var serverTemplate = Handlebars.compile(serverTemplateSource);

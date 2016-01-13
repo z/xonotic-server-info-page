@@ -26,6 +26,25 @@
                 "got_wood",
                 "gothic_block"
             ]
+        },
+        {
+            "id": "overkill",
+            "address": "96.44.146.149",
+            "port": "26004",
+            "game": "xonotic",
+            "mapList": [
+                "trance"
+            ]
+        },
+        {
+            "id": "duel",
+            "address": "96.44.146.149",
+            "port": "26001",
+            "game": "xonotic",
+            "mapList": [
+                "bloodrun",
+                "mvdm11b"
+            ]
         }
     ],
     "pages": [

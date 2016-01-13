@@ -5,6 +5,10 @@
 #main-content h2, #chat-wrapper h2 {
     margin-top:0;
 }
+.panel-footer h5 {
+    margin-top:5px;
+    margin-bottom:5px;
+}
 .post {
     margin-top:0;
     margin-bottom:50px;
