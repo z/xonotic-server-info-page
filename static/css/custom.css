@@ -70,6 +70,10 @@ div.dt-buttons {
     overflow: none;
     height: 95%;
 }
+label.pad-top {
+    margin-top:15px;
+}
+
 .icon {
     text-shadow: 1px 1px 1px rgba(50, 50, 50, 0.25);
 }

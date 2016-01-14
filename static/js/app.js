@@ -362,41 +362,60 @@ $(document).ready(function() {
 
     }
 
-    function exportConfig() {
+    function exportConfig(withData) {
 
         var zip = new JSZip();
         zip.file("config/options.json", JSON.stringify(options, null, 4));
         zip.file("config/manifest.json", JSON.stringify(manifest, null, 4));
 
-        var resourcePath = "resources/data/";
-        var postPath = "blog/";
-        var pagePath = "pages/";
+        if (withData) {
 
-        var def = [];
+            var resourcePath = "resources/data/";
+            var postPath = "blog/";
+            var pagePath = "pages/";
 
-        $.each(manifest.posts, function(index, post) {
-            var path = resourcePath + postPath;
-            var file = path + post + ".md";
-            def.push(deferredAddZip(file, file, zip));
-        });
+            var def = [];
 
-        $.each(manifest.pages, function(index, page) {
-            var path = resourcePath + pagePath;
-            var file = path + page.content + ".md";
-            def.push(deferredAddZip(file, file, zip));
-        });
+            $.each(manifest.posts, function(index, post) {
+                var path = resourcePath + postPath;
+                var file = path + post + ".md";
+                def.push(deferredAddZip(file, file, zip));
+            });
 
-        // when everything has been downloaded, we can trigger the dl
-        $.when.apply($, def).done(function () {
+            $.each(manifest.pages, function(index, page) {
+                var path = resourcePath + pagePath;
+                var file = path + page.content + ".md";
+                def.push(deferredAddZip(file, file, zip));
+            });
+
+            // when everything has been downloaded, we can trigger the dl
+            $.when.apply($, def).done(function () {
+
+                var content = zip.generate({type:"blob"});
+
+                // see FileSaver.js
+                saveAs(content, "config-and-data.zip");
+
+                return true;
+
+            }).fail(function (err) {
+
+                console.log("oops zippy no worky");
+
+                return false;
+
+            });
+
+        } else {
 
             var content = zip.generate({type:"blob"});
 
             // see FileSaver.js
             saveAs(content, "config.zip");
 
-        }).fail(function (err) {
-            console.log("oops zippy no worky");
-        });
+            return true;
+
+        }
 
     }
 
@@ -429,7 +448,12 @@ $(document).ready(function() {
         });
 
         $('#editor-export-config').click(function() {
-            exportConfig();
+            var withData = $("#editor-opt-with-data").prop('checked')
+            if (withData) {
+                exportConfig(true);
+            } else {
+                exportConfig(false);
+            }
         });
 
         $('#editor-opener').click(function() {

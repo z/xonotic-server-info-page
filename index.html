@@ -259,7 +259,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <label>IRC Channel</label> <input type="text" id="editor-opt-irc-channel" class="form-control input-sm" placeholder="IRC Channel" />
-                                    <label><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
+                                    <label class="pad-top"><input type="checkbox" id="editor-opt-load-chat-button" /> Enable Load Chat Button</label>
                                 </div>
                             </div>
                             <div class="panel panel-default">
@@ -271,8 +271,9 @@
                                 </div>
                             </div>
                             <div class="buttons">
+                                <button id="editor-export-config" class="btn btn-primary"><i class="fa fa-download"></i> Export Config</button>
                                 <button class="btn btn-primary apply-config"><i class="fa fa-check-circle"></i> Apply</button>
-                                <button id="editor-export-config" class="btn btn-primary"><i class="fa fa-download"></i> Download</button>
+                                <label><input type="checkbox" id="editor-opt-with-data" checked="checked" /> with resources</label>
                             </div>
                         </div><!-- .col -->
                     </div><!-- .row -->
