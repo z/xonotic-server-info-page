@@ -3,6 +3,10 @@ An easy to configure informational page for your Xonotic game server
 
 :link: [live demo](http://z.github.io/xonotic-server-info-page)
 
+## This is an experimental branch for websockets
+
+The master branch currently uses ajax to poll the master server. This branch contains a folder named "server" where I'm experimenting with using websockets directly with qstat.
+
 #### Features
 * Live server information (polls the master server every 30 seconds)
 * Multi-server support

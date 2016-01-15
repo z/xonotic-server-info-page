@@ -718,3 +718,12 @@ String.prototype.nthIndexOf = function(pattern, n) {
     return i;
 }
 
+function testSocket() {
+    var ws = new WebSocket('ws://localhost:8081/');
+
+    var x2js = new X2JS();
+
+    ws.onmessage = function(event) {
+      console.log( x2js.xml_str2json(event.data) );
+    };
+}
