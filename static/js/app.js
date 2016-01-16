@@ -4,7 +4,9 @@ $(document).ready(function() {
     var manifest = {};
     var playerListTable = {};
     var mapListTable = false;
+    var timer = [];
 
+    // parses markdown into HTML and then appends the page to the menu and page
     function populatePages() {
 
         var promises = [];
@@ -40,12 +42,17 @@ $(document).ready(function() {
 
         // Apply templates and handle tabs
         $.when.apply(undefined, promises).then(function() {
+
             setupTemplates();
+
             handleTabs();
+
             initWidgets();
+
         });
     }
 
+    // sets up the datatable for each server's player list
     function initPlayerListTable(server) {
         playerListTable[server.id] = $('#server-' + server.id + '-playerlist').DataTable({
             dataSrc: '',
@@ -79,6 +86,7 @@ $(document).ready(function() {
         });
     }
 
+    // sets up the datatable for the maplist
     function initMapListTable() {
 
         var mapListData = [];
@@ -118,6 +126,7 @@ $(document).ready(function() {
         });
     }
 
+    // build's the API URL for the server
     function buildStatURL(server) {
         // build the remote qstat URL and adds it to the config
         return options.qstatAddress +
@@ -213,12 +222,14 @@ $(document).ready(function() {
 
     }
 
+    // queries the API for latest information on each server
     function populateAllServers() {
         $.each(manifest.servers, function(index, server) {
             populateServerPanel(server);
         });
     }
-    
+
+    // setups up refresh button    
     function initRefreshServers() {
         $('#refresh-servers').click(function() {
             populateAllServers();
@@ -260,16 +271,19 @@ $(document).ready(function() {
     function initTimer() {
         $.each(manifest.servers, function(index, server) {
             var id = server.id;
-            var timer = $.timer(function() {
-                populateServerPanel(server);
-            });
-            timer.set({ time : 30000, autostart : true });
 
-            $(id + '.timer-toggle').click(function() {
+            timer[id] = $.timer(function() {
+                if (timer[id].isActive) {
+                    populateServerPanel(server);
+                }
+            });
+            timer[id].set({ time : 30000, autostart : true });
+
+            $('#server-' + id + ' .timer-toggle').click(function() {
                 if ( $(this).prop('checked') ) {
-                    timer.play();
+                    timer[id].play();
                 } else {
-                    timer.pause();
+                    timer[id].pause();
                 }
             });
         });
@@ -636,6 +650,7 @@ $(document).ready(function() {
 
     }
 
+    // grabs the configuration options needed to init everything else
     function init() {
 
         $.when(
@@ -697,7 +712,7 @@ function removeDevCookie() {
 }
 
 function imgError(image) {
-    $(image).attr('src','./resources/images/no_map_pic.png');
+    $(image).attr('src', './resources/images/no_map_pic.png');
 }
 
 function bytesToSize(bytes) {
@@ -717,4 +732,3 @@ String.prototype.nthIndexOf = function(pattern, n) {
 
     return i;
 }
-
