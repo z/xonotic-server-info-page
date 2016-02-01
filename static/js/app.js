@@ -5,6 +5,7 @@ $(document).ready(function() {
     var playerListTable = {};
     var mapListTable = false;
     var timer = [];
+    var $container = null;
 
     // parses markdown into HTML and then appends the page to the menu and page
     function populatePages() {
@@ -217,6 +218,8 @@ $(document).ready(function() {
             }
              
             $(id + ' .server-refreshing').fadeOut();
+
+            refreshPackery();
 
         });
 
@@ -486,9 +489,7 @@ $(document).ready(function() {
 
             var $serverCol = $('#server-' + id).parent();
 
-            $serverCol.siblings('.col-lg-6')
-                        .removeClass('col-lg-6')
-                        .addClass('col-lg-12');
+            $serverCol.siblings('.col-lg-6');
 
             $serverCol.remove();
 
@@ -496,10 +497,12 @@ $(document).ready(function() {
                 return obj.id != id;
             });
 
+            refreshPackery();
+
         });
 
 
-        // List with handle
+        // Page sort list in editor
         Sortable.create(pagesSort, {
             animation: 150
         });
@@ -631,6 +634,31 @@ $(document).ready(function() {
 
     }
 
+    function initPackery() {
+
+        $container = $('#serversSort');
+
+        // init
+        $container.packery({
+            "itemSelector": '.server',
+            "columnWidth": '.server'
+        });
+
+        $container.find('.server').each( function( i, itemElem ) {
+          // make element draggable with Draggabilly
+          var draggie = new Draggabilly( itemElem );
+          // bind Draggabilly events to Packery
+          $container.packery( 'bindDraggabillyEvents', draggie );
+        });
+
+        $container.packery('bindResize');
+
+    }
+
+    function refreshPackery() {
+        $container.packery();
+    }
+
     // Called when populatePages() completes
     function initWidgets() {
 
@@ -647,6 +675,8 @@ $(document).ready(function() {
         initEditor();
 
         initRefreshServers();
+
+        initPackery();
 
     }
 

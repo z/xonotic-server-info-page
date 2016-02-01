@@ -119,16 +119,16 @@
 
 <script id="server-template" type="text/x-handlebars-template">
 
-{{#grouped_each 2 servers}}
+<div class="row" id="serversSort">
 
-<div class="row">
+{{#grouped_each 2 servers}}
 
     {{#each this}}
 
         {{#ifCond ../../servers.length '>' 3}}
-            <div class="col-lg-6">
+            <div class="col-lg-6 server">
         {{else}}
-            <div class="col-lg-12">
+            <div class="col-lg-12 server">
         {{/ifCond}}
 
         <!-- Current Server Stats -->
@@ -254,9 +254,9 @@
 
     {{/each}}
 
-</div><!-- .row -->
-
 {{/grouped_each}}
+
+</div><!-- .row -->
 
 </script>
 
@@ -298,6 +298,8 @@
     <script type="text/javascript" src="./static/vendor/jszip-utils/jszip-utils.min.js"></script>
     <script type="text/javascript" src="./static/vendor/FileSaver/FileSaver.min.js"></script>
     <script type="text/javascript" src="./static/vendor/Sortable/Sortable.js"></script>
+    <script type="text/javascript" src="./static/vendor/packery/packery.pkgd.min.js"></script>
+    <script type="text/javascript" src="./static/vendor/draggabilly/draggabilly.pkgd.min.js"></script>
     <!-- main -->
     <script type="text/javascript" src="./static/js/app.js"></script>
 
