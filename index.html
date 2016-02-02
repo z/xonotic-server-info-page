@@ -133,16 +133,12 @@
 
         <!-- Current Server Stats -->
         <div class="panel panel-default" id="server-{{id}}">
-            <div class="panel-heading">
+            <div class="panel-heading handle">
                 <h3 class="panel-title">
                     <span class="server-name">Server Name</span>
-                    <div class="dropdown pull-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i></a>
-
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" data-toggle="modal" data-target="#server-edit-{{id}}"><i class="fa fa-pencil"></i> Edit</a></li>
-                            <li><a href="#" class="server-delete" data-server-id="{{id}}"><i class="fa fa-trash"></i> Remove</a></li>
-                        </ul>
+                    <div class="pull-right server-tools">
+                            <a href="#" data-toggle="modal" data-target="#server-edit-{{id}}" title="Edit"><i class="fa fa-pencil"></i></a>
+                            <a href="#" class="server-delete" data-server-id="{{id}}"><i class="fa fa-trash" class="Delete"></i></a>
                     </div>
                 </h3>
             </div>

@@ -646,7 +646,9 @@ $(document).ready(function() {
 
         $container.find('.server').each( function( i, itemElem ) {
           // make element draggable with Draggabilly
-          var draggie = new Draggabilly( itemElem );
+          var draggie = new Draggabilly( itemElem, {
+            handle: '.handle'
+          } );
           // bind Draggabilly events to Packery
           $container.packery( 'bindDraggabillyEvents', draggie );
         });
