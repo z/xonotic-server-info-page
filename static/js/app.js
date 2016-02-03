@@ -73,7 +73,7 @@ $(document).ready(function() {
                 {
                     targets: 0,
                     render: function ( data, type, full, meta) {
-                        return decodeURIComponent(escape(data));
+                        return decodeURIComponent(data);
                     }
                 },
                 {

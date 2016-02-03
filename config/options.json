@@ -1,5 +1,5 @@
 {
-    "qstatAddress": "http://dpmaster.deathmask.net/?&xml=1&showplayers=1",
+    "qstatAddress": "http://dpmaster.deathmask.net/?xml=1&utf8=1&showplayers=1",
     "mapshotDir": "http://xonotic.co/resources/mapshots/maps/",
     "mapshotExtension": ".jpg",
     "theme": "default",
