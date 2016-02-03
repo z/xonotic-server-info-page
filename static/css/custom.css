@@ -17,9 +17,6 @@
     width:300px !important;
     padding:1em !important;
 }
-.handle {
-    cursor: pointer;
-}
 .icon b {
     display: none;
 }

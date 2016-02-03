@@ -438,6 +438,9 @@ $(document).ready(function() {
 
     function enableEditor() {
 
+        $('#editor-opener').show();
+        $('.edit-mode-option').show();
+
         // Per server
         $.each(manifest.servers, function(index, server) {
             var id = '#server-options-' + server.id;
@@ -512,7 +515,9 @@ $(document).ready(function() {
     function initEditor() {
         if (options.enableEditor == false) {
             $('#editor-opener').hide();
+            $('.edit-mode-option').hide();
             new Konami(function() {
+                console.log("test");
                 enableEditor();
             });
         } else {
@@ -644,14 +649,17 @@ $(document).ready(function() {
             "columnWidth": '.server'
         });
 
-        $container.find('.server').each( function( i, itemElem ) {
-          // make element draggable with Draggabilly
-          var draggie = new Draggabilly( itemElem, {
-            handle: '.handle'
-          } );
-          // bind Draggabilly events to Packery
-          $container.packery( 'bindDraggabillyEvents', draggie );
-        });
+        if (options.enableEditor) {
+            $container.find('.server').each( function( i, itemElem ) {
+              // make element draggable with Draggabilly
+              var draggie = new Draggabilly( itemElem, {
+                handle: '.handle'
+              } );
+              // bind Draggabilly events to Packery
+              $container.packery( 'bindDraggabillyEvents', draggie );
+            });
+            $(".handle").css('cursor', 'pointer');
+        }
 
         $container.packery('bindResize');
 
