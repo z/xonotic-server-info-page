@@ -121,15 +121,9 @@
 
 <div class="row" id="serversSort">
 
-{{#grouped_each 2 servers}}
+    {{#each servers}}
 
-    {{#each this}}
-
-        {{#ifCond ../../servers.length '>' 3}}
-            <div class="col-lg-6 server">
-        {{else}}
-            <div class="col-lg-12 server">
-        {{/ifCond}}
+        <div class="col-lg-6 server">
 
         <!-- Current Server Stats -->
         <div class="panel panel-default" id="server-{{id}}">
@@ -249,8 +243,6 @@
     </div><!-- .col -->
 
     {{/each}}
-
-{{/grouped_each}}
 
 </div><!-- .row -->
 
