@@ -2,7 +2,7 @@
     "servers": [
         {
             "id": "insta",
-            "address": "tempdal.xonotic.co",
+            "address": "xonotic.co",
             "port": "26010",
             "game": "xonotic",
             "mapList": [
@@ -13,7 +13,7 @@
         },
         {
             "id": "kansas",
-            "address": "tempdal.xonotic.co",
+            "address": "xonotic.co",
             "port": "26000",
             "game": "xonotic",
             "mapList": [
@@ -29,7 +29,7 @@
         },
         {
             "id": "overkill",
-            "address": "tempdal.xonotic.co",
+            "address": "xonotic.co",
             "port": "26004",
             "game": "xonotic",
             "mapList": [
@@ -38,7 +38,7 @@
         },
         {
             "id": "duel",
-            "address": "tempdal.xonotic.co",
+            "address": "xonotic.co",
             "port": "26001",
             "game": "xonotic",
             "mapList": [
