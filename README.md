@@ -168,22 +168,22 @@ This file contains information about servers, pages, posts and themes.
     themes: {
 
         "default": "//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",
-        "cerulean" : "//bootswatch.com/cerulean/bootstrap.min.css",
-        "cosmo" : "//bootswatch.com/cosmo/bootstrap.min.css",
-        "cyborg" : "//bootswatch.com/cyborg/bootstrap.min.css",
-        "darkly" : "//bootswatch.com/darkly/bootstrap.min.css",
-        "flatly" : "//bootswatch.com/flatly/bootstrap.min.css",
-        "journal" : "//bootswatch.com/journal/bootstrap.min.css",
-        "lumen" : "//bootswatch.com/lumen/bootstrap.min.css",
-        "paper" : "//bootswatch.com/paper/bootstrap.min.css",
-        "readable" : "//bootswatch.com/readable/bootstrap.min.css",
-        "sandstone" : "//bootswatch.com/sandstone/bootstrap.min.css",
-        "simplex" : "//bootswatch.com/simplex/bootstrap.min.css",
-        "slate" : "//bootswatch.com/slate/bootstrap.min.css",
-        "spacelab" : "//bootswatch.com/spacelab/bootstrap.min.css",
-        "superhero" : "//bootswatch.com/superhero/bootstrap.min.css",
-        "united" : "//bootswatch.com/united/bootstrap.min.css",
-        "yeti" : "//bootswatch.com/yeti/bootstrap.min.css"
+        "cerulean" : "//bootswatch.com/3/cerulean/bootstrap.min.css",
+        "cosmo" : "//bootswatch.com/3/cosmo/bootstrap.min.css",
+        "cyborg" : "//bootswatch.com/3/cyborg/bootstrap.min.css",
+        "darkly" : "//bootswatch.com/3/darkly/bootstrap.min.css",
+        "flatly" : "//bootswatch.com/3/flatly/bootstrap.min.css",
+        "journal" : "//bootswatch.com/3/journal/bootstrap.min.css",
+        "lumen" : "//bootswatch.com/3/lumen/bootstrap.min.css",
+        "paper" : "//bootswatch.com/3/paper/bootstrap.min.css",
+        "readable" : "//bootswatch.com/3/readable/bootstrap.min.css",
+        "sandstone" : "//bootswatch.com/3/sandstone/bootstrap.min.css",
+        "simplex" : "//bootswatch.com/3/simplex/bootstrap.min.css",
+        "slate" : "//bootswatch.com/3/slate/bootstrap.min.css",
+        "spacelab" : "//bootswatch.com/3/spacelab/bootstrap.min.css",
+        "superhero" : "//bootswatch.com/3/superhero/bootstrap.min.css",
+        "united" : "//bootswatch.com/3/united/bootstrap.min.css",
+        "yeti" : "//bootswatch.com/3/yeti/bootstrap.min.css"
     }
 
 }
