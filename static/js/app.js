@@ -7,6 +7,11 @@ $(document).ready(function() {
     var timer = [];
     var $container = null;
 
+    // avoid possible code injection e.g. player and server names                                                                                                                                                                              
+    function escapeString(string) {                                                                 
+        return string.replace(/&gt;/g,">").replace(/</g, "&lt;").replace(/&lt;font/g,"<font").replace(/&lt;color/g,"<color").replace(/&lt;\/font/g,"<\/font").replace(/&lt;\/color/g,"<\/color");
+    }
+
     // parses markdown into HTML and then appends the page to the menu and page
     function populatePages() {
 
@@ -73,7 +78,7 @@ $(document).ready(function() {
                 {
                     targets: 0,
                     render: function ( data, type, full, meta) {
-                        return decodeURIComponent(data);
+                        return escapeString(decodeURIComponent(data));
                     }
                 },
                 {
@@ -156,6 +161,7 @@ $(document).ready(function() {
             
             var qstatJSON = x2js.xml2json( xml );
             var qs = qstatJSON.qstat.server;
+            qs.name = escapeString(qs.name);
 
             $(id + ' .server-down').hide();
             $(id + ' .server-timeout').hide();
